@@ -1,14 +1,6 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using ISB.CLWater.Service.DataAccess.Context;
-using System.Linq.Expressions;
+namespace ISB.CLWater.Service.Repositories;
 
-namespace ISB.CLWater.Services.Repositories;
-
-public class CLWaterRepository<TEntity> : ICLWaterRepository<TEntity> where TEntity : class
+public class CLWaterRepository<TEntity> : DbContext, ICLWaterRepository<TEntity> where TEntity : class
 {
     protected CLWaterContext _context;
     private readonly IDbContextFactory<CLWaterContext> _contextFactory;
