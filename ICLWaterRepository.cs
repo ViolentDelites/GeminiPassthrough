@@ -7,4 +7,5 @@ public interface ICLWaterRepository<TEntity> : IDisposable
     Task<IEnumerable<TEntity>> GetAllAsync(bool tracking = false);
     Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, bool tracking = false);
     Task<TEntity> GetByIdAsync(object id, bool tracking = false);
+    Task<List<TEntity>> ToListAsync();
 }
