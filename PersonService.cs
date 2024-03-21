@@ -25,9 +25,9 @@ public class PersonService
 
     public async Task UpdateAddress(int editUserId, Address address)
     {
-        // ... Potential Validation
-        _context.Attach(address);
-        await _context.SaveChangesAsync(); // Using base repository functionality 
+        // ... Potential Validation ... 
+        _context.Update(address);  // Attach and mark as modified 
+        await _context.SaveChangesAsync();
     }
 
     public async Task InsertAddress(int editUserId, Address address)
