@@ -1,9 +1,15 @@
 namespace ISB.CLWater.Service.Repositories
 {
-    public class PersonRepository : CLWaterRepository<Person>
+    public interface IPersonRepository : ICLWaterRepository<Person> // Inherit from the base interface
+    {
+        // Example specific method
+        //Task<Person> GetPersonWithAddress(int personId); 
+        // ... Add any other Person-specific methods
+    }
+    public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
         public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory)
-            : base(contextFactory)
+        : base(contextFactory)
         {
         }
 
