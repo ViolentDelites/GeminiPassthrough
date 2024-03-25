@@ -1,4 +1,4 @@
-namespace ISB.CLWater.Service.DataAccess.Context;
+namespace ISB.CLWater.Service.Context;
 
 public partial class CLWaterContext : DbContext
 {
