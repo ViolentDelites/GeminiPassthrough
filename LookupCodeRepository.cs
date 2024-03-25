@@ -10,6 +10,7 @@ namespace ISB.CLWater.Service.Repositories
         Task<IEnumerable<LookupCode>> ListRegistrationTypes();
         Task<IEnumerable<LookupCode>> ListNotificationTypes();
         Task<IEnumerable<LookupCode>> ListInquiryTypes();
+        Task<LookupCode> GetHearAboutUsDescriptionById(int id);
     }
     public class LookupCodeRepository : CLWaterRepository<LookupCode>, ILookupCodeRepository
     {
@@ -64,6 +65,12 @@ namespace ISB.CLWater.Service.Repositories
             return await _context.LookupCodes
                      .Where(lc => lc.CodeType == "INQUIRYTYPES")
                      .ToListAsync();
+        }
+        public async Task<LookupCode> GetHearAboutUsDescriptionById(int id)
+        {
+            return await _context.LookupCodes
+                                 .Where(lc => lc.CodeType == "HEARABOUTUS" && lc.Id == id)
+                                 .FirstOrDefaultAsync();
         }
 
     }
