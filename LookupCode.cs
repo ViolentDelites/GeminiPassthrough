@@ -3,8 +3,10 @@ namespace ISB.CLWater.Data.Entities
     [Table("LookupCode", Schema = "dbo")]
     public partial class LookupCode
     {
+        [StringLength(100)]
+        public string CodeType { get; set; }
         [StringLength(50)]
-        public int Code { get; set; }
+        public int Id { get; set; }
         [StringLength(100)]
         public string? Name { get; set; }
         [StringLength(2000)]

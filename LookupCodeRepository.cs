@@ -2,6 +2,7 @@ namespace ISB.CLWater.Service.Repositories
 {
     public interface ILookupCodeRepository : ICLWaterRepository<LookupCode>
     {
+        Task<IEnumerable<LookupCode>> ListSuffix();
     }
     public class LookupCodeRepository : CLWaterRepository<LookupCode>, ILookupCodeRepository
     {
@@ -9,15 +10,10 @@ namespace ISB.CLWater.Service.Repositories
             : base(contextFactory)
         {
         }
-        public async Task<IEnumerable<GetLKSuffixResult>> ListSuffix()
+        public async Task<IEnumerable<LookupCode>> ListSuffix()
         {
             return await _context.LookupCodes
                      .Where(lc => lc.CodeType == "SUFFIX")
-                     .Select(lc => new GetLKSuffixResult
-                     {
-                         SUFFIX_ID = lc.Id,
-                         SUFFIX_DESC = lc.Name
-                     })
                      .ToListAsync();
         }
     }
