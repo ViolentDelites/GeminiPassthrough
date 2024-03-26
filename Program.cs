@@ -1,21 +1,11 @@
-using ISB.CLWater.Web.Components;
-using ISB.CLWater.Service.DI;
-using ISB.CLWater.Web.Components.Layout;
-using ISB.CLWater.Service.Context;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-builder.Services.AddDbContext<CLWaterContext>();
-
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("SQLConnection");
 
-ServiceDependencyInjection.RegisterServices(builder.Services, connectionString);
+builder.Services.AddDbContext<CLWaterContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
+ServiceDependencyInjection.RegisterServices(builder.Services);
 
 var app = builder.Build();
 

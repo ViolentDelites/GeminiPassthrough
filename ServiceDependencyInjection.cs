@@ -5,9 +5,9 @@ namespace ISB.CLWater.Service.DI
 {
     public static class ServiceDependencyInjection
     {
-        public static void RegisterServices(IServiceCollection services, string connectionString)
+        public static void RegisterServices(IServiceCollection services)
         {
-            services.AddDbContext<CLWaterContext>(options => options.UseSqlServer(connectionString));
+            //services.AddDbContext<CLWaterContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IAddressNoteRepository, AddressNoteRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IAddressStagingRepository, AddressStagingRepository>();
