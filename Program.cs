@@ -9,11 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddDbContext<CLWaterContext>();
 
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("SQLConnection");
 
 ServiceDependencyInjection.RegisterServices(builder.Services, connectionString);
+
 
 var app = builder.Build();
 
@@ -37,11 +39,7 @@ builder.Services.AddScoped(sp =>
 builder.Services.AddSingleton<MainLayout>();
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 app.Run();
