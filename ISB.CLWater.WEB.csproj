@@ -1,0 +1,272 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\Internal\Pages\Search.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Components\content\css\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <None Remove="Components\content\css\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <None Remove="Components\content\css\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <None Remove="Components\content\css\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <None Remove="Components\content\css\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <None Remove="Components\content\css\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <None Remove="Components\content\css\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <None Remove="Components\content\css\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <None Remove="Components\content\css\images\ui-icons_2694e8_256x240.png" />
+    <None Remove="Components\content\css\images\ui-icons_2e83ff_256x240.png" />
+    <None Remove="Components\content\css\images\ui-icons_3d80b3_256x240.png" />
+    <None Remove="Components\content\css\images\ui-icons_72a7cf_256x240.png" />
+    <None Remove="Components\content\css\images\ui-icons_ffffff_256x240.png" />
+    <None Remove="Components\content\css\jquery-ui.css" />
+    <None Remove="Components\content\css\jquery-ui.min.css" />
+    <None Remove="Components\content\css\jquery-ui.structure.css" />
+    <None Remove="Components\content\css\jquery-ui.structure.min.css" />
+    <None Remove="Components\content\css\jquery-ui.theme.css" />
+    <None Remove="Components\content\css\jquery-ui.theme.min.css" />
+    <None Remove="Components\content\css\site.css" />
+    <None Remove="Components\content\css\superfish.css" />
+    <None Remove="Components\content\documents\2004_CMC_Fact_Finding_Report.pdf" />
+    <None Remove="Components\content\documents\Camp_Lejeune_Addendum(092014).pdf" />
+    <None Remove="Components\content\documents\Camp_Lejeune_Addendum.pdf" />
+    <None Remove="Components\content\documents\Camp_Lejeune_Addendum_v12.pdf" />
+    <None Remove="Components\content\documents\CLHDW Document Semper Fi Film Response.doc" />
+    <None Remove="Components\content\documents\CLHDW_Booklet.pdf" />
+    <None Remove="Components\content\documents\CLHDW_booklet_FINAL_hires.pdf" />
+    <None Remove="Components\content\documents\CLHDW_Booklet_old.pdf" />
+    <None Remove="Components\content\documents\CLHDW_brochure.pdf" />
+    <None Remove="Components\content\documents\CLHDW_brochure_old.pdf" />
+    <None Remove="Components\content\documents\ConfirmationLetter.pdf" />
+    <None Remove="Components\content\documents\ConfirmationLetter_old.pdf" />
+    <None Remove="Components\content\documents\counter.xml" />
+    <None Remove="Components\content\documents\DOC-RM3109007.PDF" />
+    <None Remove="Components\content\documents\Exhibit 14.pdf" />
+    <None Remove="Components\content\documents\FinalCampLejeuneDataMiningTechnicalWorkgroupCloseoutReportNov272012.pdf" />
+    <None Remove="Components\content\documents\IRSLetter.pdf" />
+    <None Remove="Components\content\documents\NRCRegistrantLetter.pdf" />
+    <None Remove="Components\content\documents\NR_130315_re_Ch_A_20130315_FINAL.doc" />
+    <None Remove="Components\content\documents\registry_statistics_Dec09.pdf" />
+    <None Remove="Components\content\documents\Thumbs.db" />
+    <None Remove="Components\content\documents\USMC_Response_to_Semper_Fi.pdf" />
+    <None Remove="Components\content\images\animated-overlay.gif" />
+    <None Remove="Components\content\images\backdrop_shadow.png" />
+    <None Remove="Components\content\images\backdrop_shadow_home.png" />
+    <None Remove="Components\content\images\background_graphic.jpg" />
+    <None Remove="Components\content\images\body_btn.png" />
+    <None Remove="Components\content\images\bullet.png" />
+    <None Remove="Components\content\images\callout_bg.png" />
+    <None Remove="Components\content\images\callout_box_bg.jpg" />
+    <None Remove="Components\content\images\chemicals_exposure.jpg" />
+    <None Remove="Components\content\images\CLHDW_logo.png" />
+    <None Remove="Components\content\images\events_summary.jpg" />
+    <None Remove="Components\content\images\facebook.gif" />
+    <None Remove="Components\content\images\facebook.png" />
+    <None Remove="Components\content\images\footer_shadow.png" />
+    <None Remove="Components\content\images\footer_shadow_bottom.png" />
+    <None Remove="Components\content\images\footer_shadow_top.png" />
+    <None Remove="Components\content\images\guts_bg.png" />
+    <None Remove="Components\content\images\homepage_image.png" />
+    <None Remove="Components\content\images\independent_reviews.jpg" />
+    <None Remove="Components\content\images\intro.jpg" />
+    <None Remove="Components\content\images\map.jpg" />
+    <None Remove="Components\content\images\marines_logo.png" />
+    <None Remove="Components\content\images\nav_bg.png" />
+    <None Remove="Components\content\images\readmore_btn.png" />
+    <None Remove="Components\content\images\register_btn.png" />
+    <None Remove="Components\content\images\registration_bg.png" />
+    <None Remove="Components\content\images\registration_btn.png" />
+    <None Remove="Components\content\images\sidebar.png" />
+    <None Remove="Components\content\images\viewall_btn.png" />
+    <None Remove="Components\content\images\viewmap_btn.png" />
+    <None Remove="Components\content\images\WaterTreatmentPlant.png" />
+    <None Remove="Components\content\images\Water_Distribution.jpg" />
+    <None Remove="Components\Flash\Map\assets\data.xml" />
+    <None Remove="Components\fonts\droidsans-bold.eot" />
+    <None Remove="Components\fonts\droidsans-bold.ttf" />
+    <None Remove="Components\fonts\droidsans-bold.woff" />
+    <None Remove="Components\fonts\droidsans.eot" />
+    <None Remove="Components\fonts\droidsans.ttf" />
+    <None Remove="Components\fonts\droidsans.woff" />
+    <None Remove="Components\fonts\opensans-bold.eot" />
+    <None Remove="Components\fonts\opensans-bold.svg" />
+    <None Remove="Components\fonts\OpenSans-Bold.ttf" />
+    <None Remove="Components\fonts\opensans-bold.woff" />
+    <None Remove="Components\fonts\opensans-bold.woff2" />
+    <None Remove="Components\fonts\OpenSans-BoldItalic.ttf" />
+    <None Remove="Components\fonts\OpenSans-ExtraBold.ttf" />
+    <None Remove="Components\fonts\OpenSans-ExtraBoldItalic.ttf" />
+    <None Remove="Components\fonts\OpenSans-Italic.ttf" />
+    <None Remove="Components\fonts\OpenSans-Light.ttf" />
+    <None Remove="Components\fonts\OpenSans-LightItalic.ttf" />
+    <None Remove="Components\fonts\opensans-regular.eot" />
+    <None Remove="Components\fonts\opensans-regular.svg" />
+    <None Remove="Components\fonts\OpenSans-Regular.ttf" />
+    <None Remove="Components\fonts\opensans-regular.woff" />
+    <None Remove="Components\fonts\opensans-regular.woff2" />
+    <None Remove="Components\fonts\OpenSans-SemiBold.ttf" />
+    <None Remove="Components\fonts\OpenSans-SemiBoldItalic.ttf" />
+    <None Remove="Components\Internal\css\jquery.datetimepicker.css" />
+    <None Remove="Components\Internal\images\pdf-file-logo.jpg" />
+    <None Remove="Components\Internal\PDFReports\December 2009.pdf" />
+    <None Remove="Components\Internal\PDFReports\January 2010.pdf" />
+    <None Remove="Components\Internal\Reports\FullWeeklyReport.rdlc" />
+    <None Remove="Components\Internal\Reports\SuspectAddressReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\content\css\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <Content Include="Components\content\css\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <Content Include="Components\content\css\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <Content Include="Components\content\css\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <Content Include="Components\content\css\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <Content Include="Components\content\css\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <Content Include="Components\content\css\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <Content Include="Components\content\css\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <Content Include="Components\content\css\images\ui-icons_2694e8_256x240.png" />
+    <Content Include="Components\content\css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Components\content\css\images\ui-icons_3d80b3_256x240.png" />
+    <Content Include="Components\content\css\images\ui-icons_72a7cf_256x240.png" />
+    <Content Include="Components\content\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Components\content\css\jquery-ui.css" />
+    <Content Include="Components\content\css\jquery-ui.min.css" />
+    <Content Include="Components\content\css\jquery-ui.structure.css" />
+    <Content Include="Components\content\css\jquery-ui.structure.min.css" />
+    <Content Include="Components\content\css\jquery-ui.theme.css" />
+    <Content Include="Components\content\css\jquery-ui.theme.min.css" />
+    <Content Include="Components\content\css\site.css" />
+    <Content Include="Components\content\css\superfish.css" />
+    <Content Include="Components\content\documents\2004_CMC_Fact_Finding_Report.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\content\documents\Camp_Lejeune_Addendum(092014).pdf" />
+    <Content Include="Components\content\documents\Camp_Lejeune_Addendum.pdf" />
+    <Content Include="Components\content\documents\Camp_Lejeune_Addendum_v12.pdf" />
+    <Content Include="Components\content\documents\CLHDW Document Semper Fi Film Response.doc" />
+    <Content Include="Components\content\documents\CLHDW_Booklet.pdf" />
+    <Content Include="Components\content\documents\CLHDW_booklet_FINAL_hires.pdf" />
+    <Content Include="Components\content\documents\CLHDW_Booklet_old.pdf" />
+    <Content Include="Components\content\documents\CLHDW_brochure.pdf" />
+    <Content Include="Components\content\documents\CLHDW_brochure_old.pdf" />
+    <Content Include="Components\content\documents\ConfirmationLetter.pdf" />
+    <Content Include="Components\content\documents\ConfirmationLetter_old.pdf" />
+    <Content Include="Components\content\documents\counter.xml" />
+    <Content Include="Components\content\documents\DOC-RM3109007.PDF" />
+    <Content Include="Components\content\documents\Exhibit 14.pdf" />
+    <Content Include="Components\content\documents\FinalCampLejeuneDataMiningTechnicalWorkgroupCloseoutReportNov272012.pdf" />
+    <Content Include="Components\content\documents\IRSLetter.pdf" />
+    <Content Include="Components\content\documents\NRCRegistrantLetter.pdf" />
+    <Content Include="Components\content\documents\NR_130315_re_Ch_A_20130315_FINAL.doc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\content\documents\registry_statistics_Dec09.pdf" />
+    <Content Include="Components\content\documents\Thumbs.db" />
+    <Content Include="Components\content\documents\USMC_Response_to_Semper_Fi.pdf" />
+    <Content Include="Components\content\images\animated-overlay.gif" />
+    <Content Include="Components\content\images\backdrop_shadow.png" />
+    <Content Include="Components\content\images\backdrop_shadow_home.png" />
+    <Content Include="Components\content\images\background_graphic.jpg" />
+    <Content Include="Components\content\images\body_btn.png" />
+    <Content Include="Components\content\images\bullet.png" />
+    <Content Include="Components\content\images\callout_bg.png" />
+    <Content Include="Components\content\images\callout_box_bg.jpg" />
+    <Content Include="Components\content\images\chemicals_exposure.jpg" />
+    <Content Include="Components\content\images\CLHDW_logo.png" />
+    <Content Include="Components\content\images\events_summary.jpg" />
+    <Content Include="Components\content\images\facebook.gif" />
+    <Content Include="Components\content\images\facebook.png" />
+    <Content Include="Components\content\images\footer_shadow.png" />
+    <Content Include="Components\content\images\footer_shadow_bottom.png" />
+    <Content Include="Components\content\images\footer_shadow_top.png" />
+    <Content Include="Components\content\images\guts_bg.png" />
+    <Content Include="Components\content\images\homepage_image.png" />
+    <Content Include="Components\content\images\independent_reviews.jpg" />
+    <Content Include="Components\content\images\intro.jpg" />
+    <Content Include="Components\content\images\map.jpg" />
+    <Content Include="Components\content\images\marines_logo.png" />
+    <Content Include="Components\content\images\nav_bg.png" />
+    <Content Include="Components\content\images\readmore_btn.png" />
+    <Content Include="Components\content\images\register_btn.png" />
+    <Content Include="Components\content\images\registration_bg.png" />
+    <Content Include="Components\content\images\registration_btn.png" />
+    <Content Include="Components\content\images\sidebar.png" />
+    <Content Include="Components\content\images\viewall_btn.png" />
+    <Content Include="Components\content\images\viewmap_btn.png" />
+    <Content Include="Components\content\images\WaterTreatmentPlant.png" />
+    <Content Include="Components\content\images\Water_Distribution.jpg" />
+    <Content Include="Components\Flash\Map\assets\data.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\fonts\droidsans-bold.eot" />
+    <Content Include="Components\fonts\droidsans-bold.ttf" />
+    <Content Include="Components\fonts\droidsans-bold.woff" />
+    <Content Include="Components\fonts\droidsans.eot" />
+    <Content Include="Components\fonts\droidsans.ttf" />
+    <Content Include="Components\fonts\droidsans.woff" />
+    <Content Include="Components\fonts\opensans-bold.eot" />
+    <Content Include="Components\fonts\opensans-bold.svg" />
+    <Content Include="Components\fonts\OpenSans-Bold.ttf" />
+    <Content Include="Components\fonts\opensans-bold.woff" />
+    <Content Include="Components\fonts\opensans-bold.woff2" />
+    <Content Include="Components\fonts\OpenSans-BoldItalic.ttf" />
+    <Content Include="Components\fonts\OpenSans-ExtraBold.ttf" />
+    <Content Include="Components\fonts\OpenSans-ExtraBoldItalic.ttf" />
+    <Content Include="Components\fonts\OpenSans-Italic.ttf" />
+    <Content Include="Components\fonts\OpenSans-Light.ttf" />
+    <Content Include="Components\fonts\OpenSans-LightItalic.ttf" />
+    <Content Include="Components\fonts\opensans-regular.eot" />
+    <Content Include="Components\fonts\opensans-regular.svg" />
+    <Content Include="Components\fonts\OpenSans-Regular.ttf" />
+    <Content Include="Components\fonts\opensans-regular.woff" />
+    <Content Include="Components\fonts\opensans-regular.woff2" />
+    <Content Include="Components\fonts\OpenSans-SemiBold.ttf" />
+    <Content Include="Components\fonts\OpenSans-SemiBoldItalic.ttf" />
+    <Content Include="Components\Internal\css\jquery.datetimepicker.css" />
+    <Content Include="Components\Internal\images\pdf-file-logo.jpg" />
+    <Content Include="Components\Internal\PDFReports\December 2009.pdf" />
+    <Content Include="Components\Internal\PDFReports\January 2010.pdf" />
+    <Content Include="Components\Internal\Reports\FullWeeklyReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NLog" Version="5.2.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ISB.CLWater.Service2\ISB.CLWater.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Internal\Pages\Search.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Internal\Pages\Search.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Components\Internal\Reports\SuspectAddressReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Components\Internal\Pages\Search.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Internal\documents\" />
+  </ItemGroup>
+
+</Project>
