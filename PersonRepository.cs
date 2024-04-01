@@ -22,11 +22,20 @@ namespace ISB.CLWater.Service.Repositories
                     return;
                 }
 
-                // Direct field mappings (adjust capitalization as needed)
-                existingPerson.LastName = person.LastName;
-                existingPerson.FirstName = person.FirstName;
-                existingPerson.MiddleInitial = person.MiddleInitial ?? "";
-                // ... (Map other fields)
+                // Direct field mappings
+                existingPerson.LAST_NAME = person.LAST_NAME;
+                existingPerson.FIRST_NAME = person.FIRST_NAME;
+                existingPerson.MIDDLE_NAME = person.MIDDLE_NAME ?? "";
+                existingPerson.VARSTATUS = person.VARSTATUS ?? "";
+                existingPerson.EMAIL_ADDRESS = person.EMAIL_ADDRESS ?? "";
+                existingPerson.VARSTATIONED = person.VARSTATIONED ?? "";
+                existingPerson.VARWORKED = person.VARWORKED ?? "";
+                existingPerson.VARRESIDE = person.VARRESIDE ?? "";
+                existingPerson.VARNONE = person.VARNONE ?? "";
+                existingPerson.SUFFIX_ID = person.SUFFIX_ID == 0 ? null : person.SUFFIX_ID;
+                existingPerson.PRIMARY_PHONE = person.PRIMARY_PHONE;
+                existingPerson.ALTERNATE_PHONE = person.ALTERNATE_PHONE.GetValueOrDefault();
+                //(Map other fields after looking at front-end)
 
                 // Validation Logic
                 if (existingPerson.IS_PRIMARY == true && person.IS_PRIMARY == false)
