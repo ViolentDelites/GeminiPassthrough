@@ -159,7 +159,7 @@ public class CLWaterRepository<TEntity> : DbContext, ICLWaterRepository<TEntity>
     {
         // Implement your logic to determine if an entity is new.
         // Example (assuming an 'Id' property):
-        return entity.Id == 0;
+        return entity == null;
     }
 
 }
