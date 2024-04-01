@@ -74,7 +74,7 @@ namespace ISB.CLWater.Service.Repositories
         {
             try
             {
-                var person = await _context.Persons.FirstOrDefaultAsync(p => p.PERSON_ID == personId);
+                var person = await _context.TBL_PERSON.FirstOrDefaultAsync(p => p.PERSON_ID == personId);
 
                 if (person == null)
                 {
