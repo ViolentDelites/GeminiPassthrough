@@ -29,12 +29,12 @@ namespace ISB.CLWater.Service.Repositories
                 // ... (Map other fields)
 
                 // Validation Logic
-                if (existingPerson.IS_PRIMARY && !person.IS_PRIMARY)
+                if (existingPerson.IS_PRIMARY == true && person.IS_PRIMARY == false)
                 {
                     throw new InvalidOperationException("ERROR: Attempt to change primary record to duplicate.");
                 }
 
-                if (person.IS_STAGING && person.IS_PRIMARY)
+                if (person.IS_STAGING == true && person.IS_PRIMARY == true)
                 {
                     throw new InvalidOperationException("ERROR: Attempt to set record as primary & staged.");
                 }
@@ -45,8 +45,8 @@ namespace ISB.CLWater.Service.Repositories
                 }
 
                 // Audit fields 
-                existingPerson.EditedBy = editUserId;
-                existingPerson.DateEdited = DateTime.Now;
+                existingPerson.EDITED_BY = editUserId;
+                existingPerson.EDITED_DATE = DateTime.Now;
 
                 await _context.SaveChangesAsync();
             }
