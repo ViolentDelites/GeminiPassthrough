@@ -9,9 +9,11 @@ namespace ISB.CLWater.Service.Repositories
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
-        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory)
-        : base(contextFactory)
+        private readonly IAddressRepository _addressRepository;
+
+        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory, IAddressRepository addressRepository):base(contextFactory)
         {
+            _addressRepository = addressRepository;
         }
 
         public async Task UpdatePersonAsync(int editUserId, Person person)
@@ -139,6 +141,35 @@ namespace ISB.CLWater.Service.Repositories
                     .AnyAsync();
 
                 return isDuplicate;
+            }
+            catch (Exception ex)
+            {
+                // Implement error handling (logging, re-throwing, etc.)
+                throw; // Re-throw for now; adjust as needed
+            }
+        }
+
+        public async Task UpdatePersonRecordAsync(int editUserId, Person person, Address address)
+        {
+            try
+            {
+                // Update Person
+                await _personRepository.UpdatePersonAsync(editUserId, person);
+
+                // Address Logic
+                var addressCount = await _addressRepository.PersonAddressCountAsync(person.PERSON_ID);
+
+                switch (addressCount)
+                {
+                    case 1:
+                        await _addressRepository.UpdateAddressAsync(editUserId, address);
+                        break;
+                    case 0:
+                        await _addressRepository.InsertAddressAsync(editUserId, address);
+                        break;
+                    default:
+                        throw new Exception("Address Check for user " + person.PERSON_ID + " Failed!");
+                }
             }
             catch (Exception ex)
             {
