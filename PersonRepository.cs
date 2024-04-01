@@ -15,7 +15,7 @@ namespace ISB.CLWater.Service.Repositories
         {
             try
             {
-                var existingPerson = await _context.Person.FindAsync(person.PERSON_ID);
+                var existingPerson = await _context.TBL_PERSON.FindAsync(person.PERSON_ID);
                 if (existingPerson == null)
                 {
                     // Handle person not found
