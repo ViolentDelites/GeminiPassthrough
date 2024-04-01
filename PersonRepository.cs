@@ -4,6 +4,8 @@ namespace ISB.CLWater.Service.Repositories
     {
         Task UpdatePersonAsync(int editUserId, Person person);
         Task<Person> RetrievePersonAsync(int personId);
+        Task<int> InsertPersonAsync(Person person, int userId);
+        Task<bool> IsDuplicateAsync(Person person, Address address);
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
@@ -36,7 +38,13 @@ namespace ISB.CLWater.Service.Repositories
                 existingPerson.SUFFIX_ID = person.SUFFIX_ID == 0 ? null : person.SUFFIX_ID;
                 existingPerson.PRIMARY_PHONE = person.PRIMARY_PHONE;
                 existingPerson.ALTERNATE_PHONE = person.ALTERNATE_PHONE.GetValueOrDefault();
-                //(Map other fields after looking at front-end)
+                existingPerson.COMMENTS = person.COMMENTS ?? "";
+                existingPerson.HEAR_ABOUT_US_ID = person.HEAR_ABOUT_US_ID;
+                existingPerson.OTHER_HEAR_ABOUT_US_DESC = person.OTHER_HEAR_ABOUT_US_DESC ?? "";
+                existingPerson.IS_PRIMARY = person.IS_PRIMARY;
+                existingPerson.PRIMARY_ID = person.PRIMARY_ID;
+                existingPerson.address_note_id = person.address_note_id;
+                existingPerson.address_note_dt = DateTime.Now;
 
                 // Validation Logic
                 if (existingPerson.IS_PRIMARY == true && person.IS_PRIMARY == false)
@@ -53,6 +61,11 @@ namespace ISB.CLWater.Service.Repositories
                 {
                     throw new InvalidOperationException("ERROR: Attempt to change primary id of a duplicate to a new primary id.");
                 }
+                if (existingPerson.IS_STAGING == true && person.IS_STAGING == false)
+                {
+                    existingPerson.VALIDATE_DATE = DateTime.Now;
+                }
+                else { existingPerson.IS_STAGING = true; }
 
                 // Audit fields 
                 existingPerson.EDITED_BY = editUserId;
@@ -90,6 +103,49 @@ namespace ISB.CLWater.Service.Repositories
             }
         }
 
+        public async Task<int> InsertPersonAsync(Person person, int userId)
+        {
+            try
+            {
+                person.EDITED_BY = userId;
+                person.EDITED_DATE = DateTime.Now; // Assuming you have such a field
+
+                _context.TBL_PERSON.Add(person);
+                await _context.SaveChangesAsync();
+
+                return person.PERSON_ID; // Assuming this is auto-generated
+            }
+            catch (Exception ex)
+            {
+                // Implement error handling (logging, re-throwing, etc.) 
+                throw;  // Re-throw for now; adjust as needed
+            }
+        }
+        public async Task<bool> IsDuplicateAsync(Person person, Address address)
+        {
+            try
+            {
+                var isDuplicate = await _context.TBL_PERSON
+                    .Where(p => p.LAST_NAME.ToUpper() == person.LAST_NAME.ToUpper() &&
+                                p.FIRST_NAME.ToUpper() == person.FIRST_NAME.ToUpper() &&
+                                p.PRIMARY_PHONE == person.PRIMARY_PHONE &&
+                                (p.SUFFIX_ID == person.SUFFIX_ID || person.SUFFIX_ID == null) &&
+                                p.TBL_ADDRESS.Any(a => a.ADDRESS_1.ToUpper() == address.ADDRESS_1.ToUpper() &&
+                                                     a.CITY.ToUpper() == address.CITY.ToUpper() &&
+                                                     a.ZIPCODE.ToUpper() == address.ZIPCODE.ToUpper() &&
+                                                     a.STATE_ID == address.STATE_ID &&
+                                                     a.COUNTRY_ID == address.COUNTRY_ID &&
+                                                     (a.ADDRESS_2.ToUpper() == address.ADDRESS_2.ToUpper() || address.ADDRESS_2 == null)))
+                    .AnyAsync();
+
+                return isDuplicate;
+            }
+            catch (Exception ex)
+            {
+                // Implement error handling (logging, re-throwing, etc.)
+                throw; // Re-throw for now; adjust as needed
+            }
+        }
 
     }
 }
