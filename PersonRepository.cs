@@ -3,6 +3,7 @@ namespace ISB.CLWater.Service.Repositories
     public interface IPersonRepository : ICLWaterRepository<Person> // Inherit from the base interface
     {
         Task UpdatePersonAsync(int editUserId, Person person);
+        Task<Person> RetrievePersonAsync(int personId);
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
@@ -69,6 +70,26 @@ namespace ISB.CLWater.Service.Repositories
                 // Handle other potential exceptions
             }
         }
+        public async Task<Person> RetrievePersonAsync(int personId)
+        {
+            try
+            {
+                var person = await _context.Persons.FirstOrDefaultAsync(p => p.PERSON_ID == personId);
+
+                if (person == null)
+                {
+                    throw new Exception("Retrieve Person Returned 0 Records");
+                }
+
+                return person;
+            }
+            catch (Exception ex)
+            {
+                // Implement error handling (logging, etc.)
+                throw; // Re-throw for now, adjust as needed
+            }
+        }
+
 
     }
 }
