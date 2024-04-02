@@ -6,6 +6,8 @@ namespace ISB.CLWater.Service.Repositories
         Task<Person> RetrievePersonAsync(int personId);
         Task<int> InsertPersonAsync(Person person, int userId);
         Task<bool> IsDuplicateAsync(Person person, Address address);
+        Task UpdatePersonRecordAsync(int editUserId, Person person, Address address);
+        Task ValidateUserAsync(int editUserId, Person person, Address address, Person compPerson = null, Address compAddress = null);
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
@@ -178,5 +180,53 @@ namespace ISB.CLWater.Service.Repositories
             }
         }
 
+        public async Task ValidateUserAsync(int editUserId, Person person, Address address, Person compPerson = null, Address compAddress = null)
+        {
+            try
+            {
+                await UpdatePersonAsync(editUserId, person);
+
+                if (person.IS_PRIMARY == true)
+                {
+                    var addressCount = await _addressRepository.PersonAddressCountAsync(person.PERSON_ID);
+
+                    switch (addressCount)
+                    {
+                        case 1:
+                            await _addressRepository.UpdateAddressAsync(editUserId, address);
+                            break;
+                        case 0:
+                            await _addressRepository.InsertAddressAsync(editUserId, address);
+                            break;
+                        default:
+                            throw new Exception("Address Check for user " + person.PERSON_ID + " Failed!");
+                    }
+                }
+
+                if (compPerson != null && compAddress != null)
+                {
+                    await UpdatePersonAsync(editUserId, compPerson);
+
+                    var compAddressCount = await _addressRepository.PersonAddressCountAsync(compPerson.PERSON_ID);
+
+                    switch (compAddressCount)
+                    {
+                        case 1:
+                            await _addressRepository.UpdateAddressAsync(editUserId, compAddress);
+                            break;
+                        case 0:
+                            await _addressRepository.InsertAddressAsync(editUserId, compAddress);
+                            break;
+                        default:
+                            throw new Exception("Address Check for user " + compPerson.PERSON_ID + " Failed!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Implement error handling (logging, re-throwing, etc.)
+                throw; // Re-throw for now; adjust as needed
+            }
+        }
     }
 }
