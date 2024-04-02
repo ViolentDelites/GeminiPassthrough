@@ -1,8 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace ISB.CLWater.Service.Repositories
 {
     public interface ICommentRepository : ICLWaterRepository<Comment>
     {
         Task InsertCommentAsync(int userId, Comment comment);
+        Task<int> GetCommentCountByPersonId(int personId);
     }
     public class CommentRepository : CLWaterRepository<Comment>, ICommentRepository
     {
@@ -27,5 +30,13 @@ namespace ISB.CLWater.Service.Repositories
                 throw; // Re-throw for now; adjust as needed
             }
         }
+
+        public async Task<int> GetCommentCountByPersonId(int personId)
+        {
+            return await _context.TBL_COMMENT
+                      .Where(c => c.PERSON_ID == personId)
+                      .CountAsync();
+        }
+
     }
 }
