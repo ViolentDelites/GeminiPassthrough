@@ -11,11 +11,13 @@ namespace ISB.CLWater.Service.Repositories
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
-        private readonly IAddressRepository _addressRepository;
+        private readonly IAddressRepository _addressRepository; 
+        private readonly ICommentRepository _commentRepository;
 
-        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory, IAddressRepository addressRepository):base(contextFactory)
+        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory, IAddressRepository addressRepository, ICommentRepository commentRepository) :base(contextFactory)
         {
             _addressRepository = addressRepository;
+            _commentRepository = commentRepository;
         }
 
         public async Task UpdatePersonAsync(int editUserId, Person person)
@@ -226,6 +228,18 @@ namespace ISB.CLWater.Service.Repositories
             {
                 // Implement error handling (logging, re-throwing, etc.)
                 throw; // Re-throw for now; adjust as needed
+            }
+        }
+
+        public void InsertCollectionForm(Person person, Address address, int userId, Comment comment)
+        {
+            address.PERSON_ID = InsertPersonAsync(person, userId);
+            _addressRepository.InsertAddressAsync(userId, address); // Delegate to AddressRepository
+
+            if (comment != null)
+            {
+                comment.PERSON_ID = address.PERSON_ID;
+                _commentRepository.InsertCommentAsync(userId, comment); // Delegate to CommentRepository
             }
         }
     }
