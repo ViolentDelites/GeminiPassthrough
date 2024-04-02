@@ -154,7 +154,7 @@ namespace ISB.CLWater.Service.Repositories
             try
             {
                 // Update Person
-                await _personRepository.UpdatePersonAsync(editUserId, person);
+                await UpdatePersonAsync(editUserId, person);
 
                 // Address Logic
                 var addressCount = await _addressRepository.PersonAddressCountAsync(person.PERSON_ID);
