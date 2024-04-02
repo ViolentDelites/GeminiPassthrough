@@ -8,6 +8,7 @@ namespace ISB.CLWater.Service.Repositories
         Task<bool> IsDuplicateAsync(Person person, Address address);
         Task UpdatePersonRecordAsync(int editUserId, Person person, Address address);
         Task ValidateUserAsync(int editUserId, Person person, Address address, Person compPerson = null, Address compAddress = null);
+        Task InsertCollectionForm(Person person, Address address, int userId, Comment comment);
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
@@ -231,9 +232,9 @@ namespace ISB.CLWater.Service.Repositories
             }
         }
 
-        public void InsertCollectionForm(Person person, Address address, int userId, Comment comment)
+        public async Task InsertCollectionForm(Person person, Address address, int userId, Comment comment)
         {
-            address.PERSON_ID = InsertPersonAsync(person, userId);
+            address.PERSON_ID = await InsertPersonAsync(person, userId);
             _addressRepository.InsertAddressAsync(userId, address); // Delegate to AddressRepository
 
             if (comment != null)
