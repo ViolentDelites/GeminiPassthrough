@@ -9,16 +9,20 @@ namespace ISB.CLWater.Service.Repositories
         Task UpdatePersonRecordAsync(int editUserId, Person person, Address address);
         Task ValidateUserAsync(int editUserId, Person person, Address address, Person compPerson = null, Address compAddress = null);
         Task InsertCollectionForm(Person person, Address address, int userId, Comment comment);
+        Task<NotificationCommentCount> RetrieveNotificationCommentCount(int personId);
+
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
         private readonly IAddressRepository _addressRepository; 
         private readonly ICommentRepository _commentRepository;
+        private readonly INotificationTrackingRepository _notificationTrackingRepository;
 
-        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory, IAddressRepository addressRepository, ICommentRepository commentRepository) :base(contextFactory)
+        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory, IAddressRepository addressRepository, ICommentRepository commentRepository, INotificationTrackingRepository notificationTrackingRepository) :base(contextFactory)
         {
             _addressRepository = addressRepository;
             _commentRepository = commentRepository;
+            _notificationTrackingRepository = notificationTrackingRepository;
         }
 
         public async Task UpdatePersonAsync(int editUserId, Person person)
@@ -242,6 +246,19 @@ namespace ISB.CLWater.Service.Repositories
                 comment.PERSON_ID = address.PERSON_ID;
                 _commentRepository.InsertCommentAsync(userId, comment); // Delegate to CommentRepository
             }
+        }
+
+        public async Task<NotificationCommentCount> RetrieveNotificationCommentCount(int personId)   //temp solution to NotificationCommentCount question 
+        {
+            int commentCount = await _commentRepository.GetCommentCountByPersonId(personId);
+            int notificationCount = await _notificationTrackingRepository.GetNotificationCountByPersonId(personId);
+
+            return new NotificationCommentCount
+            {
+                CommentCount = commentCount,
+                NotificationCount = notificationCount
+            };
+        
         }
     }
 }
