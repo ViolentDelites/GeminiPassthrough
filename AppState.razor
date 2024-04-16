@@ -1,0 +1,21 @@
+@inject ProtectedSessionStorage SessionStorage
+@inject ProtectedLocalStorage LcoalStorage
+
+<CascadingValue Value="this">
+    //ChildContent
+</CascadingValue>
+
+@code {
+    public string UserName { get; set; }
+    public int? UserId { get; set; }
+    public bool IsAdmin { get; set; }
+    public bool IsVaUser { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserName = await SessionStorage.GetAsync<string>("userName");
+        UserId = await SessionStorage.GetAsync<int?>("userId");
+        IsAdmin = await SessionStorage.GetAsync<bool>("IsAdmin");
+        IsVaUser = await SessionStorage.GetAsync<bool>("IsVAUser");
+    }
+}
