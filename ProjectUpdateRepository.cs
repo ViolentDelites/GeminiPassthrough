@@ -24,7 +24,7 @@ public class ProjectUpdateRepository : CLWaterRepository<ProjectUpdate>, IProjec
     {
         using (var context = _contextFactory.CreateDbContext())
         {
-            return await context.ProjectUpdate.OrderByDescending(p => p.ArticleDate).Take(3).ToListAsync();
+            return await context.TBL_ProjectUpdate.OrderByDescending(p => p.ArticleDate).Take(3).ToListAsync();
         }
     }
 }

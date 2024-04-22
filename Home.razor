@@ -1,0 +1,28 @@
+@page "/"
+@inject ProjectUpdateRepository projectUpdateRepo
+
+<h3>Project Updates</h3>
+<div class="width-425px">
+    @if (projectUpdates == null)
+    {
+        <p><em>Loading updates...</em></p>
+    }
+    else
+    {
+        @foreach (var update in projectUpdates)
+        {
+            <p>
+                @Utils.ProjectUpdateHelper.CreateProjectUpdateParagraph(update.Title, update.Url, update.Description)
+            </p>
+        }
+    }
+</div>
+
+@code {
+    private List<ProjectUpdate> projectUpdates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projectUpdates = await projectUpdateRepo.GetTop3ProjectUpdates();
+    }
+}
