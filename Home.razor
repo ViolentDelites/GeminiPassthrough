@@ -1,5 +1,5 @@
 @page "/"
-@inject ProjectUpdateRepository projectUpdateRepo
+@inject ProjectUpdateRepository ProjectUpdateRepository
 
 <h3>Project Updates</h3>
 <div class="width-425px">
@@ -11,9 +11,9 @@
     {
         @foreach (var update in projectUpdates)
         {
-            <p>
-                @Utils.ProjectUpdateHelper.CreateProjectUpdateParagraph(update.Title, update.Url, update.Description)
-            </p>
+            <p>@update.Title</p>
+            <p>@update.Url</p>
+            <p>@update.Description</p>
         }
     }
 </div>
@@ -23,6 +23,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        projectUpdates = await projectUpdateRepo.GetTop3ProjectUpdates();
+        projectUpdates = await ProjectUpdateRepository.GetTop3ProjectUpdates();
     }
 }
