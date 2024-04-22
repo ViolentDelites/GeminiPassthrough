@@ -2,7 +2,6 @@ namespace ISB.CLWater.Service.Context;
 
 public partial class CLWaterContext : DbContext
 {
-    public CLWaterContext() { }
     public CLWaterContext(DbContextOptions<CLWaterContext> options) : base(options) {}
 
     public virtual DbSet<AddressNote> LK_ADDRESS_NOTE { get; set; }
