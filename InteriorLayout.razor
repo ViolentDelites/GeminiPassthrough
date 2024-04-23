@@ -1,0 +1,214 @@
+@inherits LayoutComponentBase
+@inject ISB.CLWater.Service.Repositories.IProjectUpdateRepository ProjectUpdateRepository
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    <link href="app.css" rel="stylesheet" />
+    <link href="content/css/site.css" rel="stylesheet" />
+    <link href="content/css/superfish.css" rel="stylesheet" />
+    <script src="_framework/blazor.server.js"></script>
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/jquery-ui.js"></script>
+    <script src="Scripts/superfish.js"></script>
+    <PageTitle>@Title</PageTitle>
+    <HeadContent></HeadContent>
+
+</head>
+<body>
+    <!--Top bar with CL Water logo-->
+    <div class="width-auto bgWhite">
+        <div class="top-logo-bar">
+            <img class="top-logo" src="content/images/CLHDW_logo.png" alt="Camp Lejeune Historic Drinking Water textual graphic." />
+        </div>
+    </div>
+    <!--Top navigation bar-->
+    <div class="header">
+        <div class="top-nav-bar">
+            <div class="top-nav-button-row">
+                <div>
+                    <ul id="topnavmenu" class="sf-menu">
+                        <li><a class="a-nav-link" href="/">Home</a></li>
+                        <li>
+                            <a class="a-nav-link" href="/background-information">Background Information</a>
+                            <ul>
+                                <li><a href="/timeline">Timeline</a></li>
+                                <li><a href="/map">Camp Lejeune Map</a></li>
+                                <li><a href="/independent-reviews">Independent Reviews</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="a-nav-link" href="/project-updates">Project Updates</a></li>
+                        <li><a class="a-nav-link" href="/questions-answers">Questions &amp; Answers</a></li>
+                        <li><a class="a-nav-link" href="/resources">Resources</a></li>
+                        <li><a class="a-nav-link" href="/contact-us">Contact Us</a></li>
+                    </ul>
+                    <div class="nav-divider"></div>
+                </div>
+                <div class="horizontal-spacer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="width-100">
+        <!--Side bar (right)-->
+        <div class="interior-left-wrapper ml-auto mr-auto pl-80">
+            <!--Left column box containing main content of site-->
+            <div class="interior-left">
+                <div class="interior-left-backdrop">
+                    <div>
+                        @Body
+                    </div>
+                </div>
+                <div class="interior-left-backdrop-shadow">
+                    <img src="content/images/backdrop_shadow.png" />
+                </div>
+            </div>
+            <div class="interior-sidebar-wrapper">
+                <div class="interior-sidebar-whiteborder">
+                    <div class="interior-sidebar">
+                        <div>
+                            <p class="interior-sidebar-headline">
+                                Join the Notification<br />
+                                Database Today
+                            </p>
+                            <p class="interior-sidebar-body">
+                                The Marine Corps encourages<br />
+                                all those who lived or worked<br />
+                                at Camp Lejeune in 1987 or<br />
+                                before to register to receive<br />
+                                notifications regarding Camp<br />
+                                Lejeune Historic Drinking Water.<br />
+                                <br />
+                                <a href="/privacy" class="a-image-link">
+                                    <img src="content/images/register_btn.png" class="a-image-link" />
+                                </a>
+                                <br />
+                                <br />
+                                Or <a href="/update" class="a-update-link">Update Information</a>
+                            </p>
+                            <br />
+                            <br />
+                            <div class="sidebar-indent">
+                                <h3>Questions &amp; Answers</h3>
+                                <p class="global-bodycopy">
+                                    <a href="/questions-answers#history">History of Discovery</a><br />
+                                    <br />
+                                    <a href="/questions-answers#chemicals">Chemicals and Exposure</a><br />
+                                    <br />
+                                    <a href="/questions-answers#health">Health and Medical</a><br />
+                                    <br />
+                                    <a href="/questions-answers#outreach">Notification and Outreach</a><br />
+                                </p>
+                                <a href="/questions-answers" class="a-image-link center">
+                                    <img src="content/images/readmore_btn.png" class="a-image-link" />
+                                </a>
+                                <br />
+                                <br />
+                                <h3>Project Updates</h3>
+                                @foreach (var projectUpdate in ProjectUpdates)
+                                {
+                                    <div>
+                                        <a href="@projectUpdate.Url">@projectUpdate.Title</a>
+                                        <p>@projectUpdate.Description</p>
+                                    </div>
+                                }
+                                <a href="/project-updates" class="a-image-link center">
+                                    <img src="content/images/viewall_btn.png" class="a-image-link" />
+                                </a>
+                                <br />
+                                <br />
+                                <h3>Registration Summary</h3>
+                                <p class="global-bodycopy">
+                                    See the number of people<br />
+                                    registered in your state.
+                                </p>
+                                <br />
+                                <br />
+                                <a href="/registration-summary" class="a-image-link center">
+                                    <img src="content/images/readmore_btn.png" class="a-image-link" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Footer-->
+    <div class="footer-container">
+        <div class="global-footer-wrapper">
+            <div class="global-footer-1 global-footer-1-shadow">
+                <div class="column-wrapper">
+                    <div class="global-footer-column-left">
+                        <p class="global-footer-1-bodycopy">
+                            <span class="global-footer-1-headline">TOLL FREE CALL CENTER:</span><br />
+                            <br />
+                            Monday - Friday<br />
+                            8:30 A.M. - 5:00 P.M. ET<br />
+                            <br />
+                            Phone: (877) 261-9782<br />
+                            <br />
+                            Email: <a href="mailto:clwater@usmc.mil"><span class="font-weight-700 white">clwater@usmc.mil</span></a>
+                        </p>
+                    </div>
+                    <div class="global-footer-column-center">
+                        <p class="global-footer-1-bodycopy">
+                            <span class="global-footer-1-headline">FOR LEGAL CLAIMS, PLEASE CONTACT:</span><br />
+                            <br />
+                            Department of the Navy<br />
+                            ATTN: Camp Lejeune Claim<br />
+                            Office of the Judge Advocate General<br />
+                            Washington Navy Yard, Bldg 33<br />
+                            1322 Patterson Ave SE Suite 3000<br />
+                            Washington DC, 20374<br />
+                            <br />
+                            Phone: (202) 685-4600
+                        </p>
+                    </div>
+                    <div class="global-footer-column-right">
+                        <a class="a-image-link" href="http://www.facebook.com/pages/Camp-Lejeune-Historic-Drinking-Water/290089146100?ref=search&sid=567199964.3092282074..1">
+                            <img class="image-float fb-image" src="content/images/facebook.png" alt="Facebook logo." />
+                        </a>
+                        <p class="global-footer-1-bodycopy">
+                            <span class="global-footer-1-headline">FOLLOW US<br />ON FACEBOOK</span>
+                        </p>
+                    </div>
+                    <div class="horizontal-spacer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-container-2">
+        <div class="global-footer-2">
+            <img class="global-footer-2-logo" src="content/images/marines_logo.png" alt="The Marine Corps eagle, globe, and anchor logo." />
+            <div class="global-footer-2-bodycopy"><span class="font-weight-700">U.S. Marine Corps</span></div>
+        </div>
+    </div>
+    <script src="Scripts/clwater.js"></script>
+</body>
+</html>
+@code {
+    //private List<ProjectUpdate> ProjectUpdates { get; set; } = new List<ProjectUpdate>();
+    private List<ProjectUpdate> ProjectUpdates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProjectUpdatesAsync();
+    }
+
+    private async Task LoadProjectUpdatesAsync()
+    {
+        ProjectUpdates = await ProjectUpdateRepository.GetTop3ProjectUpdates();
+    }
+
+    private string Title { get; set; } = "Default Title";
+
+    protected override void OnInitialized()
+    {
+        // Set the default title or dynamically determine the title based on the current page
+        Title = "Camp Lejeune Historic Drinking Water";
+    }
+}
