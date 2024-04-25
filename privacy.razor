@@ -1,0 +1,89 @@
+@page "/privacy"
+@layout MapLayout
+@inherits ComponentBase
+
+<div class="content-p">
+    <div class="float-right font-15 bold mr-10">
+        OMB CONTROL NUMBER:  0703-0057<br />
+        EXPIRES ON: 12/31/19
+    </div>
+    <br />
+    <br />
+    <h2 class="text-center mt-0">PRIVACY ACT STATEMENT</h2>
+    <div class="font-13">
+        In accordance with the Privacy Act of 1974 (Public Law 93-579), this notice informs you of the purpose of this data collection and how the collected data will be used. Please read it carefully.
+        <br />
+        <br />
+        <div class="ml-20 font-13">
+            <b>AUTHORITY:</b> 10 U.S.C. 5041, Headquarters, U.S. Marine Corps: Function; composition; PL 110-181, Sec. 315, Notification of Certain Residents and Civilian Employees at Camp Lejeune, North Carolina, of Exposure to Drinking Water Contamination; and SORN M05100-6. SORN M05100-6 can be viewed at the following: <a href="http://dpcld.defense.gov/Privacy/SORNsIndex/DOD-wide-SORN-Article-View/Article/570632/m05100-6/" target="_blank">http://dpcld.defense.gov/Privacy/SORNsIndex/DOD-wide-SORN-Article-View/Article/570632/m05100-6/</a>
+            <br />
+            <br />
+            <b>PRINCIPAL PURPOSE:</b> Information collected in this database will be used to provide notification to persons potentially exposed to drinking water containing tetrachloroethylene (PCE) or trichloroethylene (TCE) on MCB Camp Lejeune, NC, 1987 and before.
+            <br />
+            <br />
+            <b>ROUTINE USES:</b> Information may be disclosed to:
+            <br />
+            <br />
+            To the officials and employees of the United States Marine Corps to facilitate the registration of individuals and the communication of information regarding Camp Lejeune Historic Drinking Water to these registrants.
+            <br />
+            <br />
+            Also, pursuant to 5 U.S.C. 522a(b)(8) to federal and state public health and environmental agencies in the performance of their official duties related to the protection and study of human health and the environment as affected by potential exposure to toxic contamination.
+            <br />
+            <br />
+            Furthermore, to the Department of Veterans Affairs (DVA) for the purpose of providing medical care to former service members and retirees, to determine the eligibility for or entitlement to benefits, to coordinate cost sharing activities, and to facilitate collaborative research activities between the DoD and DVA.
+            <br />
+            <br />
+            To officials and employees of the Agency for Toxic Substances and Diseases Registry (ATSDR) to facilitate ATSDR research activities.
+            <br />
+            <br />
+            <b>ROUTINE USES:</b> Information from this database may be shared outside the DoD for those specific purposes and listed organizations identified as DoD Blanket Routine Uses at: <a href="http://dpcld.defense.gov/Privacy/SORNsIndex/Blanket-Routine-Uses/" target="_blank">http://dpcld.defense.gov/Privacy/SORNsIndex/Blanket-Routine-Uses/</a>
+            <br />
+            <br />
+            <b>DISCLOSURE:</b> Providing information for this database is voluntary. However, failure to provide the requested information may result in delayed notification regarding developments concerning the Camp Lejeune Notification Registry - Privacy Notice drinking water issue that may be of interest to you or your family.
+        </div>
+        <br />
+        <br />
+    </div>
+    <div class="width-auto">
+        <div class="mr-auto ml-auto width-450px">
+            <div class="mr-auto ml-auto">
+                <input type="checkbox" @bind="AgreeToTerms" />
+                <span class="text-center"><b>I have read and agree to the terms of this privacy notice.</b></span>
+                <br />
+                <br />
+            </div>
+            <div class="mr-auto ml-auto width-50px">
+                <button class="btn btn-primary" @onclick="ContinueRegistration" disabled="@(!AgreeToTerms)">Continue</button>
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+        <div class="ml-20 mr-20">
+            <h2 class="text-center mt-0">AGENCY DISCLOSURE NOTICE</h2>
+            The public reporting burden for this collection of information is estimated to average six (6) minutes per response, including the time for reviewing instructions, searching existing data sources, gathering and maintaining the data needed, and completing and reviewing the collection of information. Send comments regarding this burden estimate or any other aspect of this collection of information, including suggestions for reducing the burden, to the Department of Defense, Washington Headquarters Services, Executive Services Directorate, Directives Division, 4800 Mark Center Drive, East Tower, Suite 02G09, Alexandria, VA 22350-3100. OMB Control Number: 0703-0057. Respondents should be aware that notwithstanding any other provision of law, no person shall be subject to any penalty for failing to comply with a collection of information if it does not display a currently valid OMB control number.
+        </div>
+        <br />
+
+        <div class="ml-20 mr-20">
+            <div>
+                <h3 class="text-center mt-0">PLEASE DO NOT ATTEMPT TO REGISTER AT THE ABOVE MAILING ADDRESS.</h3>
+            </div>
+            <div>
+                If you wish to join the notification database, please read and agree to the privacy notice and then click on the "Continue" button to register to receive notifications regarding Camp Lejeune Historic Drinking Water.
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool AgreeToTerms { get; set; }
+
+    private void ContinueRegistration()
+    {
+        // Navigate to the registration page
+        //NavigationManager.NavigateTo("/data-collection");
+    }
+}
