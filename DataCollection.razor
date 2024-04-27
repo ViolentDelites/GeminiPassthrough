@@ -1,7 +1,7 @@
 @page "/data-collection"
 @layout MainLayout
-@inject ILookupCodeRepository LookupCodeRepo
-@inject IPersonRepository PersonRepo
+@inject ILookupCodeRepository LookupCodeRepository
+@inject IPersonRepository PersonRepository
 @inject NavigationManager NavigationManager
 
 <div>
@@ -228,7 +228,7 @@
                 <br />
                 <h3><b>Please review your information prior to clicking submit</b></h3>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>           <!--triggers HandleValidSubmit method-->
                 <br />
                 <br />
                 <br />
@@ -268,11 +268,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Load lookup data for dropdowns
-        SuffixList = await LookupCodeRepo.ListSuffix();
-        StateList = await LookupCodeRepo.ListStates();
-        CountryList = await LookupCodeRepo.ListCountries();
-        HearAboutUsList = await LookupCodeRepo.ListHearAboutUS();
+        var SuffixResult = await LookupCodeRepository.ListSuffix();
+        SuffixList = SuffixResult.ToList();
+        var StatesResult = await LookupCodeRepository.ListStates();
+        StateList = StatesResult.ToList();
+        var CountriesResult = await LookupCodeRepository.ListCountries();
+        CountryList = CountriesResult.ToList();
+        var HearAboutUsResult = await LookupCodeRepository.ListHearAboutUS();
+        HearAboutUsList = HearAboutUsResult.ToList();
     }
 
     private void OnStateChanged(ChangeEventArgs e)
