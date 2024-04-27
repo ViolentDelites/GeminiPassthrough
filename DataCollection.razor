@@ -111,7 +111,7 @@
                             <a class="help_text" href="javascript:helpopen(1);">Overseas military address?</a><br />
                             <br />
 
-                            <select @bind="StateId" @onchange="OnStateChanged">
+                            <select @bind="StateId" @bind:event="onstatechange">
                                 <option value="0">Select State</option>
                                 @foreach (var state in StateList)
                                 {
@@ -206,7 +206,7 @@
                                     </p>
                                 </td>
                                 <td align="left">
-                                    <select @bind="HearAboutUsId" @onchange="OnHearAboutUsChanged">
+                                    <select @bind="HearAboutUsId" @bind:event="OnHearAboutUsChanged">
                                         <option value="0">Select</option>
                                         @foreach (var hearAboutUs in HearAboutUsList)
                                         {
@@ -228,7 +228,7 @@
                 <br />
                 <h3><b>Please review your information prior to clicking submit</b></h3>
 
-                <button @onclick="SubmitForm" class="btn btn-primary">Submit Form</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
                 <br />
                 <br />
                 <br />
@@ -287,7 +287,7 @@
         IsHearAboutUsTextVisible = HearAboutUsId == 0 || (await LookupCodeRepo.GetHearAboutUsDescriptionById(HearAboutUsId))?.Description.ToUpper().Trim() == "MAGAZINE AD";
     }
 
-    private async Task SubmitForm()
+    private async Task HandleValidSubmit()
     {
         // Perform form submission logic here
         Person person = new Person
