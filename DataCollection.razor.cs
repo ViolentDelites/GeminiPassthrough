@@ -114,48 +114,5 @@ namespace ISB.CLWater.Web.Components.Pages
                 this.NavigationManager.NavigateTo("DuplicateRecordFound");
             }
         }
-
-        private async Task SubmitForm()
-        {
-            Person person = new Person();
-            Address address = new Address();
-
-            try
-            {
-                person.FirstName = tbFirstName.Trim();
-                person.MiddleInitial = string.IsNullOrWhiteSpace(tbMName.Trim()) ? null : tbMName.Trim();
-                person.LastName = tbLastName.Trim();
-                person.SuffixId = tbSuffix == "0" ? 0 : Convert.ToInt32(tbSuffix);
-                person.PrimaryPhone = tbPhoneNo.Trim();
-                person.AlternatePhone = string.IsNullOrWhiteSpace(altPhoneNo.Trim()) ? null : altPhoneNo.Trim();
-                person.EmailAddress = string.IsNullOrWhiteSpace(tbEmailAddress.Trim()) ? null : tbEmailAddress.Trim();
-                person.HearAboutUsId = tbHearAboutUs == "0" ? 0 : Convert.ToInt32(tbHearAboutUs);
-                person.OtherHearAboutUsId = tbHearAboutUsText;
-                person.RegistrationTypeId = 1; //Online
-                person.IsPrimary = 0;
-                person.IsStaging = 1;
-
-                address.Address1 = tbAddress1.Trim();
-                address.Address2 = string.IsNullOrWhiteSpace(tbAddress2.Trim()) ? null : tbAddress2.Trim();
-                address.City = tbCity.Trim();
-                address.StateId = Convert.ToInt32(ddlState);
-                address.OtherStateDescription = string.IsNullOrWhiteSpace(ddlStateText.Trim()) ? null : ddlStateText.Trim();
-                address.ZipCode = tbZipCode.Trim();
-                address.CountryId = Convert.ToInt32(ddlCountry);
-
-                Comment comment = new Comment { CommentDesc = "" };
-
-                if (!await PersonRepository.IsDuplicateAsync(person, address))
-                    await PersonRepository.InsertCollectionForm(person, address, 99999, comment);
-                else
-                    NavigationManager.NavigateTo("DuplicateRecordFound");
-            }
-            catch (Exception)
-            {
-                NavigationManager.NavigateTo("InvalidRecord");
-            }
-
-            NavigationManager.NavigateTo("ClosingStatement");
-        }
     }
 }
