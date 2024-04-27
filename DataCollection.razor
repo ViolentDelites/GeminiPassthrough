@@ -2,7 +2,6 @@
 @layout MainLayout
 @inject ILookupCodeRepository LookupCodeRepository
 @inject IPersonRepository PersonRepository
-@inject NavigationManager NavigationManager
 
 <div>
     <div class="font-15 bold float-right mt-10 mr-20">
@@ -284,10 +283,16 @@
         IsStateTextVisible = StateId == 0;
     }
 
-    private void OnHearAboutUsChanged(ChangeEventArgs e)
+    private async void OnHearAboutUsChanged(ChangeEventArgs e)
     {
         HearAboutUsId = Convert.ToInt32(e.Value);
-        IsHearAboutUsTextVisible = HearAboutUsId == 0 || (await LookupCodeRepo.GetHearAboutUsDescriptionById(HearAboutUsId))?.Description.ToUpper().Trim() == "MAGAZINE AD";
+        await UpdateHearAboutUsVisibility(); // Call async helper method
+    }
+
+    private async Task UpdateHearAboutUsVisibility()
+    {
+        LookupCode description = await LookupCodeRepository.GetHearAboutUsDescriptionById(HearAboutUsId);
+        IsHearAboutUsTextVisible = HearAboutUsId == 0 || description?.Description.ToUpper().Trim() == "MAGAZINE AD";
     }
 
     private async Task HandleValidSubmit()
@@ -295,41 +300,41 @@
         // Perform form submission logic here
         Person person = new Person
             {
-                FirstName = FirstName.Trim(),
-                MiddleInitial = string.IsNullOrWhiteSpace(MiddleInitial?.Trim()) ? null : MiddleInitial.Trim(),
-                LastName = LastName.Trim(),
-                SuffixId = SuffixId == 0 ? null : SuffixId,
-                PrimaryPhone = PrimaryPhone.Trim(),
-                AlternatePhone = string.IsNullOrWhiteSpace(AlternatePhone?.Trim()) ? null : AlternatePhone.Trim(),
-                EmailAddress = string.IsNullOrWhiteSpace(EmailAddress?.Trim()) ? null : EmailAddress.Trim(),
-                HearAboutUsId = HearAboutUsId == 0 ? null : HearAboutUsId,
-                OtherHearAboutUsId = HearAboutUsText,
-                RegistrationTypeId = 1, // Online
-                IsPrimary = 0,
-                IsStaging = 1
+                FIRST_NAME = FirstName.Trim(),
+                MIDDLE_NAME = string.IsNullOrWhiteSpace(MiddleInitial?.Trim()) ? null : MiddleInitial.Trim(),
+                LAST_NAME = LastName.Trim(),
+                SUFFIX_ID = SuffixId == 0 ? null : SuffixId,
+                PRIMARY_PHONE = PrimaryPhone.Trim(),
+                ALTERNATE_PHONE = string.IsNullOrWhiteSpace(AlternatePhone?.Trim()) ? null : AlternatePhone.Trim(),
+                EMAIL_ADDRESS = string.IsNullOrWhiteSpace(EmailAddress?.Trim()) ? null : EmailAddress.Trim(),
+                HEAR_ABOUT_US_ID = HearAboutUsId == 0 ? null : HearAboutUsId,
+                OTHER_HEAR_ABOUT_US_DESC = HearAboutUsText,
+                REGISTRATION_TYPE = 1, // Online
+                IS_PRIMARY = false,
+                IS_STAGING = true
             };
 
         Address address = new Address
             {
-                Address1 = Address1.Trim(),
-                Address2 = string.IsNullOrWhiteSpace(Address2?.Trim()) ? null : Address2.Trim(),
-                City = City.Trim(),
-                StateId = StateId,
-                OtherStateDescription = string.IsNullOrWhiteSpace(StateText?.Trim()) ? null : StateText.Trim(),
-                ZipCode = ZipCode.Trim(),
-                CountryId = CountryId
+                ADDRESS_1 = Address1.Trim(),
+                ADDRESS_2 = string.IsNullOrWhiteSpace(Address2?.Trim()) ? null : Address2.Trim(),
+                CITY = City.Trim(),
+                STATE_ID = StateId,
+                OTHER_STATE_DESC = string.IsNullOrWhiteSpace(StateText?.Trim()) ? null : StateText.Trim(),
+                ZIPCODE = ZipCode.Trim(),
+                COUNTRY_ID = CountryId
             };
 
-        Comment comment = new Comment { CommentDesc = "" };
+        Comment comment = new Comment { COMMENT = "" };
 
-        if (!await PersonRepo.IsDuplicateAsync(person, address))
+        if (!await PersonRepository.IsDuplicateAsync(person, address))
         {
-            await PersonRepo.InsertCollectionForm(person, address, 99999, comment);
+            await PersonRepository.InsertCollectionForm(person, address, 99999, comment);
             // Navigate to success page or show success message
         }
         else
         {
-            NavigationManager.NavigateTo("DuplicateRecordFound");
+            this.NavigationManager.NavigateTo("DuplicateRecordFound");
         }
     }
 }
