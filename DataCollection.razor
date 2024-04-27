@@ -304,12 +304,14 @@
                 MIDDLE_NAME = string.IsNullOrWhiteSpace(MiddleInitial?.Trim()) ? null : MiddleInitial.Trim(),
                 LAST_NAME = LastName.Trim(),
                 SUFFIX_ID = SuffixId == 0 ? null : SuffixId,
-                PRIMARY_PHONE = PrimaryPhone.Trim(),
-                ALTERNATE_PHONE = string.IsNullOrWhiteSpace(AlternatePhone?.Trim()) ? null : AlternatePhone.Trim(),
+                PRIMARY_PHONE = decimal.Parse(PrimaryPhone.Trim()),
+                ALTERNATE_PHONE = string.IsNullOrWhiteSpace(AlternatePhone?.Trim())
+                                ? null
+                                : decimal.TryParse(AlternatePhone.Trim(), out var parsedPhone) ? parsedPhone : null,
                 EMAIL_ADDRESS = string.IsNullOrWhiteSpace(EmailAddress?.Trim()) ? null : EmailAddress.Trim(),
                 HEAR_ABOUT_US_ID = HearAboutUsId == 0 ? null : HearAboutUsId,
                 OTHER_HEAR_ABOUT_US_DESC = HearAboutUsText,
-                REGISTRATION_TYPE = 1, // Online
+                REGISTRATION_TYPE_ID = 1, // Online
                 IS_PRIMARY = false,
                 IS_STAGING = true
             };
