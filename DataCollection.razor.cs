@@ -145,8 +145,8 @@ namespace ISB.CLWater.Web.Components.Pages
 
                 Comment comment = new Comment { CommentDesc = "" };
 
-                if (!await PersonSvc.IsDuplicate(person, address))
-                    await PersonSvc.InsertCollectionForm(person, address, 99999, comment);
+                if (!await PersonRepository.IsDuplicateAsync(person, address))
+                    await PersonRepository.InsertCollectionForm(person, address, 99999, comment);
                 else
                     NavigationManager.NavigateTo("DuplicateRecordFound");
             }
