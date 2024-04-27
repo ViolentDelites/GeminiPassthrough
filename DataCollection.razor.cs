@@ -114,25 +114,6 @@ namespace ISB.CLWater.Web.Components.Pages
                 this.NavigationManager.NavigateTo("DuplicateRecordFound");
             }
         }
-           /// <summary>
-           ///  This is the break between old @code block and codebehind, cleaning up code
-           /// </summary>
-        private string tbFirstName;
-        private string tbMName;
-        private string tbLastName;
-        private string tbSuffix;
-        private string tbPhoneNo;
-        private string altPhoneNo;
-        private string tbEmailAddress;
-        private string tbHearAboutUs;
-        private string tbHearAboutUsText;
-        private string tbAddress1;
-        private string tbAddress2;
-        private string tbCity;
-        private string ddlState;
-        private string ddlStateText;
-        private string tbZipCode;
-        private string ddlCountry;
 
         private async Task SubmitForm()
         {
@@ -175,26 +156,6 @@ namespace ISB.CLWater.Web.Components.Pages
             }
 
             NavigationManager.NavigateTo("ClosingStatement");
-        }
-
-        private void OnStateChanged(ChangeEventArgs e)
-        {
-            ddlState = e.Value.ToString();
-            IsStateTextVisible = ddlState.ToUpper() == "OTHER";
-        }
-
-        private void OnHearAboutUsChanged(ChangeEventArgs e)
-        {
-            try
-            {
-                tbHearAboutUs = e.Value.ToString();
-                IsHearAboutUsTextVisible = tbHearAboutUs.ToUpper().Trim() == "OTHER" || tbHearAboutUs.ToUpper().Trim() == "MAGAZINE AD";
-            }
-            catch (Exception ex)
-            {
-                logger.Debug($"Potential Errors with Dropdown Text box. See Errors below:");
-                logger.Debug(ex.Message);
-            }
         }
     }
 }
