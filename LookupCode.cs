@@ -1,23 +1,23 @@
 namespace ISB.CLWater.Data.Entities
 {
-    [Table("LookupCode", Schema = "dbo")]
+    [Table("TBL_LOOKUP_CODE", Schema = "dbo")]
     public partial class LookupCode
     {
         [StringLength(100)]
-        public string CodeType { get; set; }
+        public string CODE_TYPE { get; set; }
         [StringLength(50)]
-        public int Id { get; set; }
+        public int ID { get; set; }
         [StringLength(100)]
-        public string? Name { get; set; }
+        public string? NAME { get; set; }
         [StringLength(2000)]
-        public string? Description { get; set; }
+        public string? DESCRIPTION { get; set; }
         [StringLength(10)]
-        public string? Abbreviation { get; set; }
-        public bool? IsActive { get; set; }
-        public int? CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int? UpdatedBy { get; set;}
-        public DateTime? UpdatedDate { get; set; }
+        public string? ABBREVIATION { get; set; }
+        public bool? IS_ACTIVE { get; set; }
+        public int? CREATED_BY { get; set; }
+        public DateTime? CREATED_DATE { get; set; }
+        public int? UPDATED_BY { get; set;}
+        public DateTime? UPDATED_DATE { get; set; }
 
         // ... other relevant properties if needed
     }
