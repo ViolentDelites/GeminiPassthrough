@@ -12,6 +12,21 @@ namespace ISB.CLWater.Service.Repositories
             _contextFactory = contextFactory;
         }
 
-        
+        public async Task<LoginUser?> CheckCACLoginName(string loginName)
+        {
+            return await _context.TBL_USER
+                        .Where(u => u.LOGIN_NM == loginName)
+                        .Select(u => new LoginUser
+                        {
+                            FirstName = u.FIRST_NM,
+                            LastName = u.LAST_NM,
+                            UserId = u.USER_ID,
+                            IsAdmin = u.IS_ADMIN,
+                            IsVaUser = u.IS_VA_USER
+                        })
+                        .FirstOrDefaultAsync();
+
+            // Add logic for adding userinfo to session 
+        }
     }
 }

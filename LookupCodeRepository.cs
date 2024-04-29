@@ -14,15 +14,20 @@ namespace ISB.CLWater.Service.Repositories
     }
     public class LookupCodeRepository : CLWaterRepository<LookupCode>, ILookupCodeRepository
     {
+        private readonly IDbContextFactory<CLWaterContext> _contextFactory;
         public LookupCodeRepository(IDbContextFactory<CLWaterContext> contextFactory)
             : base(contextFactory)
         {
+            _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
         public async Task<IEnumerable<LookupCode>> ListSuffix()
         {
-            return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "SUFFIX")
-                     .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await context.LookupCodes
+                                 .Where(lc => lc.CodeType == "SUFFIX")            
+                                 .ToListAsync();
+            }
         }
         public async Task<IEnumerable<LookupCode>> ListStates()
         {
@@ -32,45 +37,66 @@ namespace ISB.CLWater.Service.Repositories
         }
         public async Task<IEnumerable<LookupCode>> ListCountries()
         {
-            return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "COUNTRY")
-                     .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await context.LookupCodes
+                                 .Where(lc => lc.CodeType == "STATE")
+                                 .ToListAsync();
+            }
         }
         public async Task<IEnumerable<LookupCode>> ListHearAboutUS()
         {
-            return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "HEARABOUTUS")
-                     .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await context.LookupCodes
+                                 .Where(lc => lc.CodeType == "HEARABOUTUS")
+                                 .ToListAsync();
+            }
         }
         public async Task<IEnumerable<LookupCode>> ListAddressNotes()
         {
-            return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "ADDRESSNOTES")
-                     .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await context.LookupCodes
+                                 .Where(lc => lc.CodeType == "ADDRESSNOTES")
+                                 .ToListAsync();
+            }
         }
         public async Task<IEnumerable<LookupCode>> ListRegistrationTypes()
         {
-            return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "REGISTRATIONTYPES")
-                     .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await context.LookupCodes
+                                 .Where(lc => lc.CodeType == "REGISTRATIONTYPES")
+                                 .ToListAsync();
+            }
         }
         public async Task<IEnumerable<LookupCode>> ListNotificationTypes()
         {
-            return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "NOTIFICATIONTYPES")
-                     .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await context.LookupCodes
+                                 .Where(lc => lc.CodeType == "NOTIFICATIONTYPES")
+                                 .ToListAsync();
+            }
         }
         public async Task<IEnumerable<LookupCode>> ListInquiryTypes()
         {
-            return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "INQUIRYTYPES")
-                     .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await context.LookupCodes
+                                 .Where(lc => lc.CodeType == "INQUIRYTYPES")
+                                 .ToListAsync();
+            }
         }
         public async Task<LookupCode> GetHearAboutUsDescriptionById(int id)
         {
-            return await _context.LookupCodes
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await _context.LookupCodes
                                  .Where(lc => lc.CodeType == "HEARABOUTUS" && lc.Id == id)
                                  .FirstOrDefaultAsync();
+            }
         }
 
     }
