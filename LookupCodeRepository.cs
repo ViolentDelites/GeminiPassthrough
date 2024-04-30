@@ -2,6 +2,7 @@ namespace ISB.CLWater.Service.Repositories
 {
     public interface ILookupCodeRepository : ICLWaterRepository<LookupCode>
     {
+        public string GetLookupCodeDescription(int id);
         Task<IEnumerable<LookupCode>> ListSuffix();
         Task<IEnumerable<LookupCode>> ListStates();
         Task<IEnumerable<LookupCode>> ListCountries();
@@ -20,19 +21,27 @@ namespace ISB.CLWater.Service.Repositories
         {
             _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
+        public string GetLookupCodeDescription(int id)
+        {
+            return _context.LookupCodes
+                           .Where(lc => lc.ID == id)
+                           .Select(lc => lc.DESCRIPTION)
+                           .FirstOrDefault();
+        }
+
         public async Task<IEnumerable<LookupCode>> ListSuffix()
         {
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await context.LookupCodes
-                                 .Where(lc => lc.CodeType == "SUFFIX")            
+                                 .Where(lc => lc.CODE_TYPE == "SUFFIX")            
                                  .ToListAsync();
             }
         }
         public async Task<IEnumerable<LookupCode>> ListStates()
         {
             return await _context.LookupCodes
-                     .Where(lc => lc.CodeType == "STATE")
+                     .Where(lc => lc.CODE_TYPE == "STATE")
                      .ToListAsync();
         }
         public async Task<IEnumerable<LookupCode>> ListCountries()
@@ -40,7 +49,7 @@ namespace ISB.CLWater.Service.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await context.LookupCodes
-                                 .Where(lc => lc.CodeType == "STATE")
+                                 .Where(lc => lc.CODE_TYPE == "STATE")
                                  .ToListAsync();
             }
         }
@@ -49,7 +58,7 @@ namespace ISB.CLWater.Service.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await context.LookupCodes
-                                 .Where(lc => lc.CodeType == "HEARABOUTUS")
+                                 .Where(lc => lc.CODE_TYPE == "HEARABOUTUS")
                                  .ToListAsync();
             }
         }
@@ -58,7 +67,7 @@ namespace ISB.CLWater.Service.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await context.LookupCodes
-                                 .Where(lc => lc.CodeType == "ADDRESSNOTES")
+                                 .Where(lc => lc.CODE_TYPE == "ADDRESSNOTES")
                                  .ToListAsync();
             }
         }
@@ -67,7 +76,7 @@ namespace ISB.CLWater.Service.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await context.LookupCodes
-                                 .Where(lc => lc.CodeType == "REGISTRATIONTYPES")
+                                 .Where(lc => lc.CODE_TYPE == "REGISTRATIONTYPES")
                                  .ToListAsync();
             }
         }
@@ -76,7 +85,7 @@ namespace ISB.CLWater.Service.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await context.LookupCodes
-                                 .Where(lc => lc.CodeType == "NOTIFICATIONTYPES")
+                                 .Where(lc => lc.CODE_TYPE == "NOTIFICATIONTYPES")
                                  .ToListAsync();
             }
         }
@@ -85,7 +94,7 @@ namespace ISB.CLWater.Service.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await context.LookupCodes
-                                 .Where(lc => lc.CodeType == "INQUIRYTYPES")
+                                 .Where(lc => lc.CODE_TYPE == "INQUIRYTYPES")
                                  .ToListAsync();
             }
         }
@@ -94,7 +103,7 @@ namespace ISB.CLWater.Service.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 return await _context.LookupCodes
-                                 .Where(lc => lc.CodeType == "HEARABOUTUS" && lc.Id == id)
+                                 .Where(lc => lc.CODE_TYPE == "HEARABOUTUS" && lc.ID == id)
                                  .FirstOrDefaultAsync();
             }
         }
