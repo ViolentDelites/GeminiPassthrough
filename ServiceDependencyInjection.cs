@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using static ISB.CLWater.Service.Repositories.INotificationTrackingRepository;
 
 namespace ISB.CLWater.Service.DI
 {
@@ -59,6 +59,11 @@ namespace ISB.CLWater.Service.DI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IValidationHistoryRepository, ValidationHistoryRepository>();
             services.AddScoped<IWeeklyReportResultRepository, WeeklyReportResultRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IProjectUpdateRepository, ProjectUpdateRepository>();
+            services.AddScoped<ILookupCodeRepository, LookupCodeRepository>();
+            services.AddScoped<IReportService, ReportService>();
         }
     }
 }
