@@ -11,14 +11,16 @@ namespace ISB.CLWater.Service.Repositories
 
             private readonly DbSet<Person> _people;
             private readonly IPersonRepository _personRepository;
+            private readonly ICommentRepository _commentRepository;
             private readonly IUserRepository _userRepository;
             private readonly ILookupCodeRepository _lookupCodeRepository;
 
-            public NotificationTrackingRepository(IDbContextFactory<CLWaterContext> contextFactory, IPersonRepository personRepository, IUserRepository userRepository, ILookupCodeRepository lookupCodeRepository)
+            public NotificationTrackingRepository(IDbContextFactory<CLWaterContext> contextFactory, IPersonRepository personRepository, ICommentRepository commentRepository, IUserRepository userRepository, ILookupCodeRepository lookupCodeRepository)
                 : base(contextFactory)
             {
                 _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
                 _personRepository = personRepository;
+                _commentRepository = commentRepository;
                 _userRepository = userRepository;
                 _lookupCodeRepository = lookupCodeRepository;
             }
@@ -52,6 +54,19 @@ namespace ISB.CLWater.Service.Repositories
                                 })
                                 .ToListAsync();
                 }
+            }
+
+            public async Task<NotificationCommentCount> RetrieveNotificationCommentCount(int personId)   //temp solution to NotificationCommentCount question 
+            {
+                int commentCount = await _commentRepository.GetCommentCountByPersonId(personId);
+                int notificationCount = await GetNotificationCountByPersonId(personId);
+
+                return new NotificationCommentCount
+                {
+                    CommentCount = commentCount,
+                    NotificationCount = notificationCount
+                };
+
             }
         }
     }
