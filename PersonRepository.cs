@@ -9,20 +9,22 @@ namespace ISB.CLWater.Service.Repositories
         Task UpdatePersonRecordAsync(int editUserId, Person person, Address address);
         Task ValidateUserAsync(int editUserId, Person person, Address address, Person compPerson = null, Address compAddress = null);
         Task InsertCollectionForm(Person person, Address address, int userId, Comment comment);
-        Task<NotificationCommentCount> RetrieveNotificationCommentCount(int personId);
+        public string GetPersonFullName(int personId);
 
     }
     public class PersonRepository : CLWaterRepository<Person>, IPersonRepository
     {
         private readonly IAddressRepository _addressRepository; 
         private readonly ICommentRepository _commentRepository;
-        private readonly INotificationTrackingRepository _notificationTrackingRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ILookupCodeRepository _lookupCodeRepository;
 
-        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory, IAddressRepository addressRepository, ICommentRepository commentRepository, INotificationTrackingRepository notificationTrackingRepository) :base(contextFactory)
+        public PersonRepository(IDbContextFactory<CLWaterContext> contextFactory, IAddressRepository addressRepository, ICommentRepository commentRepository, IUserRepository userRepository, ILookupCodeRepository lookupCodeRepository) :base(contextFactory)
         {
             _addressRepository = addressRepository;
             _commentRepository = commentRepository;
-            _notificationTrackingRepository = notificationTrackingRepository;
+            _userRepository = userRepository;
+            _lookupCodeRepository = lookupCodeRepository;
         }
 
         public async Task UpdatePersonAsync(int editUserId, Person person)
@@ -132,6 +134,7 @@ namespace ISB.CLWater.Service.Repositories
                 throw;  // Re-throw for now; adjust as needed
             }
         }
+
         public async Task<bool> IsDuplicateAsync(Person person, Address address)
         {
             try
@@ -248,17 +251,38 @@ namespace ISB.CLWater.Service.Repositories
             }
         }
 
-        public async Task<NotificationCommentCount> RetrieveNotificationCommentCount(int personId)   //temp solution to NotificationCommentCount question 
+        public async Task<List<HearAboutUsRecord>> GetHearAboutUsRecordsAsync(string startDate, string endDate, int hearAboutUsId = 0)
         {
-            int commentCount = await _commentRepository.GetCommentCountByPersonId(personId);
-            int notificationCount = await _notificationTrackingRepository.GetNotificationCountByPersonId(personId);
+            var query = _context.TBL_PERSON
+                .Where(p => p.HEAR_ABOUT_US_ID != null &&
+                            p.CREATED_DATE >= DateTime.Parse(startDate) &&
+                            p.CREATED_DATE <= DateTime.Parse(endDate));
 
-            return new NotificationCommentCount
+            if (hearAboutUsId > 0)
             {
-                CommentCount = commentCount,
-                NotificationCount = notificationCount
-            };
-        
+                query = query.Where(p => p.HEAR_ABOUT_US_ID == hearAboutUsId);
+            }
+
+            return await query
+                .OrderByDescending(p => p.HEAR_ABOUT_US_ID)
+                .Select(p => new HearAboutUsRecord
+                {
+                    HearAboutUsId = p.HEAR_ABOUT_US_ID.Value,
+                    OtherHearAboutUsDescription = p.OTHER_HEAR_ABOUT_US_DESC,
+                    HearAboutUsDescription = _lookupCodeRepository.GetLookupCodeDescription(p.HEAR_ABOUT_US_ID ?? 0),
+                    CreatedBy = p.CREATED_BY.Value,
+                    CreatedDate = p.CREATED_DATE,
+                    CreatedByName = _userRepository.GetUserFullName(p.CREATED_BY ?? 0)
+                })
+                .ToListAsync();
         }
+        public string GetPersonFullName(int personId)
+        {
+            return _context.TBL_PERSON
+                       .Where(p => p.PERSON_ID == personId)
+                       .Select(p => p.FIRST_NAME + " " + p.LAST_NAME)
+                       .FirstOrDefault();
+        }
+
     }
 }
