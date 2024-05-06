@@ -58,6 +58,7 @@ public partial class Person
     public DateTime CREATED_DATE { get; set; }
 
     public int? SUFFIX_ID { get; set; }
+    public LookupCode? SUFFIX { get; set; }
 
     [Column(TypeName = "numeric(20, 0)")]
     public decimal? PRIMARY_PHONE { get; set; }
@@ -105,9 +106,9 @@ public partial class Person
     [InverseProperty("TBL_PERSON")]
     public virtual RegistrationType? REGISTRATION_TYPE { get; set; }
 
-    [ForeignKey("SUFFIX_ID")]
-    [InverseProperty("TBL_PERSON")]
-    public virtual Suffix? SUFFIX { get; set; }
+    //[ForeignKey("SUFFIX_ID")]
+    //[InverseProperty("TBL_PERSON")]
+    //public virtual Suffix? SUFFIX { get; set; }
 
     [InverseProperty("PERSON")]
     public virtual ICollection<Address> TBL_ADDRESS { get; set; } = new List<Address>();
