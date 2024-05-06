@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+
 namespace ISB.CLWater.Service.Context;
 
-public partial class CLWaterContext : DbContext
+public partial class CLWaterContext : DbContext, IDataProtectionKeyContext
 {
-    public CLWaterContext(DbContextOptions<CLWaterContext> options) : base(options) {}
+    public CLWaterContext(DbContextOptions<CLWaterContext> options) : base(options) { }
+
+    public DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = null!;
 
     public virtual DbSet<AddressNote> LK_ADDRESS_NOTE { get; set; }
-   
+
     public virtual DbSet<Country> LK_COUNTRY { get; set; }
 
     public virtual DbSet<FollowUpReason> LK_FOLLOW_UP_REASON { get; set; }
@@ -180,8 +184,6 @@ public partial class CLWaterContext : DbContext
         {
             entity.Property(e => e.VALIDATION_HISTORY_ID).ValueGeneratedOnAdd();
         });
-
-        OnModelCreatingGeneratedProcedures(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
 
