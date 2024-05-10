@@ -11,95 +11,73 @@ namespace ISB.CLWater.Web.Components.Pages
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        
-        private ValidationSummary ValidationSummary;
+        private Model model = new Model();
 
-        private string LastName;
-        private string FirstName;
-        private string MiddleInitial;
-        private int? SuffixId;
-        private List<LookupCode> SuffixList;
+        private List<LookupCode> SuffixList = new List<LookupCode>();
+        private List<LookupCode> StateList = new List<LookupCode>();
+        private List<LookupCode> CountryList = new List<LookupCode>();
+        private List<LookupCode> HearAboutUsList = new List<LookupCode>();
 
-        private string Address1;
-        private string Address2;
-        private string City;
-        private int StateId;
-        private List<LookupCode> StateList;
         private bool IsStateTextVisible;
-        private string StateText;
-        private string ZipCode;
-        private int CountryId;
-        private List<LookupCode> CountryList;
-
-        private string PrimaryPhone;
-        private string AlternatePhone;
-        private string EmailAddress;
-
-        private int HearAboutUsId;
-        private List<LookupCode> HearAboutUsList;
         private bool IsHearAboutUsTextVisible;
-        private string HearAboutUsText;
 
         protected override async Task OnInitializedAsync()
         {
-            var SuffixResult = await LookupCodeRepository.ListSuffix();
-            SuffixList = SuffixResult.ToList();
-            var StatesResult = await LookupCodeRepository.ListStates();
-            StateList = StatesResult.ToList();
-            var CountriesResult = await LookupCodeRepository.ListCountries();
-            CountryList = CountriesResult.ToList();
-            var HearAboutUsResult = await LookupCodeRepository.ListHearAboutUS();
-            HearAboutUsList = HearAboutUsResult.ToList();
+            SuffixList = (await LookupCodeRepository.ListSuffix()).ToList();
+            StateList = (await LookupCodeRepository.ListStates()).ToList();
+            CountryList = (await LookupCodeRepository.ListCountries()).ToList();
+            HearAboutUsList = (await LookupCodeRepository.ListHearAboutUS()).ToList();
         }
 
         private void OnStateChanged(ChangeEventArgs e)
         {
-            StateId = Convert.ToInt32(e.Value);
-            IsStateTextVisible = StateId == 0;
+            model.StateId = Convert.ToInt32(e.Value);
+            var selectedState = StateList.Find(s => s.ID == model.StateId);
+            IsStateTextVisible = selectedState?.DESCRIPTION.ToUpper().Trim() == "OTHER";
         }
 
-        private async void OnHearAboutUsChanged(ChangeEventArgs e)
+        private void OnHearAboutUsChanged(ChangeEventArgs e)
         {
-            HearAboutUsId = Convert.ToInt32(e.Value);
-            await UpdateHearAboutUsVisibility(); // Call async helper method
+            model.HearAboutUsId = Convert.ToInt32(e.Value);
+            var selectedHearAboutUs = HearAboutUsList.Find(h => h.ID == model.HearAboutUsId);
+            IsHearAboutUsTextVisible = selectedHearAboutUs?.DESCRIPTION.ToUpper().Trim() == "OTHER";
         }
 
         private async Task UpdateHearAboutUsVisibility()
         {
-            LookupCode description = await LookupCodeRepository.GetHearAboutUsDescriptionById(HearAboutUsId);
-            IsHearAboutUsTextVisible = HearAboutUsId == 0 || description?.Description.ToUpper().Trim() == "MAGAZINE AD";
+            LookupCode description = await LookupCodeRepository.GetHearAboutUsDescriptionById(model.HearAboutUsId);
+            IsHearAboutUsTextVisible = model.HearAboutUsId == 0 || description?.DESCRIPTION.ToUpper().Trim() == "MAGAZINE AD";
         }
 
         private async Task HandleValidSubmit()
         {
-            // Perform form submission logic here
             Person person = new Person
             {
-                FIRST_NAME = FirstName.Trim(),
-                MIDDLE_NAME = string.IsNullOrWhiteSpace(MiddleInitial?.Trim()) ? null : MiddleInitial.Trim(),
-                LAST_NAME = LastName.Trim(),
-                SUFFIX_ID = SuffixId == 0 ? null : SuffixId,
-                PRIMARY_PHONE = decimal.Parse(PrimaryPhone.Trim()),
-                ALTERNATE_PHONE = string.IsNullOrWhiteSpace(AlternatePhone?.Trim())
+                FIRST_NAME = model.FirstName.Trim(),
+                MIDDLE_NAME = string.IsNullOrWhiteSpace(model.MiddleInitial?.Trim()) ? null : model.MiddleInitial.Trim(),
+                LAST_NAME = model.LastName.Trim(),
+                SUFFIX_ID = model.SuffixId == 0 ? null : model.SuffixId,
+                PRIMARY_PHONE = decimal.Parse(model.PrimaryPhone.Trim()),
+                ALTERNATE_PHONE = string.IsNullOrWhiteSpace(model.AlternatePhone?.Trim())
                                     ? null
-                                    : decimal.TryParse(AlternatePhone.Trim(), out var parsedPhone) ? parsedPhone : null,
-                EMAIL_ADDRESS = string.IsNullOrWhiteSpace(EmailAddress?.Trim()) ? null : EmailAddress.Trim(),
-                HEAR_ABOUT_US_ID = HearAboutUsId == 0 ? null : HearAboutUsId,
-                OTHER_HEAR_ABOUT_US_DESC = HearAboutUsText,
-                REGISTRATION_TYPE_ID = 1, // Online
+                                    : decimal.TryParse(model.AlternatePhone.Trim(), out var parsedPhone) ? parsedPhone : null,
+                EMAIL_ADDRESS = string.IsNullOrWhiteSpace(model.EmailAddress?.Trim()) ? null : model.EmailAddress.Trim(),
+                HEAR_ABOUT_US_ID = model.HearAboutUsId == 0 ? null : model.HearAboutUsId,
+                OTHER_HEAR_ABOUT_US_DESC = model.HearAboutUsText,
+                REGISTRATION_TYPE_ID = 1, // Online, Fix this hardcode
                 IS_PRIMARY = false,
                 IS_STAGING = true
             };
 
             Address address = new Address
             {
-                ADDRESS_1 = Address1.Trim(),
-                ADDRESS_2 = string.IsNullOrWhiteSpace(Address2?.Trim()) ? null : Address2.Trim(),
-                CITY = City.Trim(),
-                STATE_ID = StateId,
-                OTHER_STATE_DESC = string.IsNullOrWhiteSpace(StateText?.Trim()) ? null : StateText.Trim(),
-                ZIPCODE = ZipCode.Trim(),
-                COUNTRY_ID = CountryId
+                ADDRESS_1 = model.Address1.Trim(),
+                ADDRESS_2 = string.IsNullOrWhiteSpace(model.Address2?.Trim()) ? null : model.Address2.Trim(),
+                CITY = model.City.Trim(),
+                STATE_ID = model.StateId,
+                OTHER_STATE_DESC = string.IsNullOrWhiteSpace(model.StateText?.Trim()) ? null : model.StateText.Trim(),
+                ZIPCODE = model.ZipCode.Trim(),
+                COUNTRY_ID = model.CountryId
             };
 
             Comment comment = new Comment { COMMENT = "" };
@@ -107,12 +85,32 @@ namespace ISB.CLWater.Web.Components.Pages
             if (!await PersonRepository.IsDuplicateAsync(person, address))
             {
                 await PersonRepository.InsertCollectionForm(person, address, 99999, comment);
-                // Navigate to success page or show success message
+                this.NavigationManager.NavigateTo("/closing-statement");
             }
             else
             {
-                this.NavigationManager.NavigateTo("DuplicateRecordFound");
+                this.NavigationManager.NavigateTo("/duplicate-record-found");
             }
+        }
+
+        private class Model
+        {
+            public string LastName { get; set; }
+            public string FirstName { get; set; }
+            public string MiddleInitial { get; set; }
+            public int SuffixId { get; set; }
+            public string Address1 { get; set; }
+            public string Address2 { get; set; }
+            public string City { get; set; }
+            public int StateId { get; set; }
+            public string StateText { get; set; }
+            public string ZipCode { get; set; }
+            public int CountryId { get; set; }
+            public string PrimaryPhone { get; set; }
+            public string AlternatePhone { get; set; }
+            public string EmailAddress { get; set; }
+            public int HearAboutUsId { get; set; }
+            public string HearAboutUsText { get; set; }
         }
     }
 }

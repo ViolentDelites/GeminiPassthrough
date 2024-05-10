@@ -1,5 +1,5 @@
 @page "/data-collection"
-@layout MainLayout
+@layout MapLayout
 
 <div>
     <div class="font-15 bold float-right mt-10 mr-20">
@@ -9,227 +9,247 @@
     </div>
     <br />
     <br />
-    <table class="internal-table">
-        <tr>
-            <td colspan="2">
-                <ValidationSummary @ref="ValidationSummary" CssClass="validationerror" ForeColor=""
-                                   HeaderText="For assistance please contact our toll free call center at 877-261-9782 or email us at <a href=mailto:clwater@usmc.mil>clwater@usmc.mil</a>." Height="177px" />
-            </td>
-        </tr>
-        <tr valign="top">
-            <td>
-                <table class="no-border" align="left" width="408">
-                    <tr align="left">
-                        <td align="left" colspan="2">
-                            <h4>&nbsp;&nbsp;Personal Info:</h4>
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>Last Name:</b></p>
-                        </td>
-                        <td align="left">
-                            <input @bind="LastName" maxlength="35" />
-                            <ValidationMessage For="@(() => LastName)" />
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>First Name:</b></p>
-                        </td>
-                        <td align="left">
-                            <input @bind="FirstName" maxlength="35" />
-                            <ValidationMessage For="@(() => FirstName)" />
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Middle Initial:</b></p>
-                        </td>
-                        <td align="left">
-                            <input @bind="MiddleInitial" maxlength="1" width="15" />
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Suffix:</b></p>
-                        </td>
-                        <td align="left">
-                            <select @bind="SuffixId">
-                                <option value="0">Select Suffix</option>
-                                @foreach (var suffix in SuffixList)
-                                {
-                                    <option value="@suffix.Id">@suffix.Description</option>
-                                }
-                            </select>
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td align="left" colspan="2">
-                            <br />
-                            <h4>&nbsp;&nbsp;Current Address:</h4>
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>Mailing Address 1:</b></p>
-                        </td>
-                        <td align="left">
-                            <input @bind="Address1" class="long" maxlength="100" />
-                            <ValidationMessage For="@(() => Address1)" />
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td width="150">
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Mailing Address 2:</b></p>
-                        </td>
-                        <td align="left">
-                            <input @bind="Address2" class="short" maxlength="100" />
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span><b> City:</b></p>
-                        </td>
-                        <td align="left">
-                            <input @bind="City" maxlength="35" />
-                            <ValidationMessage For="@(() => City)" />
-                        </td>
-                    </tr>
-                    <tr align="left" valign="baseline">
-                        <td>
-                            <p class="label_text">
-                                <br />
-                                <br />
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span><b> State:</b>
-                            </p>
-                        </td>
-                        <td align="left">
-                            <a class="help_text" href="javascript:helpopen(1);">Overseas military address?</a><br />
-                            <br />
-
-                            <select @bind="StateId" @bind:event="onstatechange">
-                                <option value="0">Select State</option>
-                                @foreach (var state in StateList)
-                                {
-                                    <option value="@state.Id">@state.Description</option>
-                                }
-                            </select>
-                            <ValidationMessage For="@(() => StateId)" />
-                            <br />
-                            <input @bind="StateText" maxlength="35" disabled="@(!IsStateTextVisible)" />
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>Zip Code:</b></p>
-                        </td>
-                        <td align="left">
-                            <input @bind="ZipCode" maxlength="10" class="short" />
-                            <ValidationMessage For="@(() => ZipCode)" />
-                        </td>
-                    </tr>
-                    <tr align="left">
-                        <td>
-                            <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span><b> Country:</b></p>
-                        </td>
-                        <td align="left">
-                            <select @bind="CountryId">
-                                <option value="0">Select Country</option>
-                                @foreach (var country in CountryList)
-                                {
-                                    <option value="@country.Id">@country.Description</option>
-                                }
-                            </select>
-                            <ValidationMessage For="@(() => CountryId)" />
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td valign="top">
-                <table class="no-border" align="left" width="545">
-                    <td valign="top">
-                        <table class="no-border" align="left" width="545">
-                            <tr align="left" valign="top">
-                                <td class="text-left vertical-align-top" colspan="2">
-                                    <h4>&nbsp;&nbsp;Contact Information:</h4>
-                                </td>
-                            </tr>
-                            <tr valign="top" align="left">
-                                <td>
-                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="required">*</span><b> Primary Phone Number:</b></p>
-                                </td>
-                                <td align="left">
-                                    <input @bind="PrimaryPhone" maxlength="20" /><br />
-                                    <span class="italic blue bold font-11 ml-20"> No dashes accepted </span>
-                                    <br />
-                                    <br />
-                                    <ValidationMessage For="@(() => PrimaryPhone)" />
-                                </td>
-                            </tr>
-                            <tr valign="top" align="left">
-                                <td>
-                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Alternate Phone Number:</b></p>
-                                </td>
-                                <td align="left">
-                                    <input @bind="AlternatePhone" maxlength="20" /><br />
-                                    <span class="italic blue bold font-11 ml-20"> No dashes accepted </span>
-                                    <br />
-                                    <br />
-                                    <ValidationMessage For="@(() => AlternatePhone)" />
-                                </td>
-                            </tr>
-                            <tr valign="top" align="left">
-                                <td>
-                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Email Address:</b></p>
-                                </td>
-                                <td align="left">
-                                    <input @bind="EmailAddress" maxlength="128" />
-                                    <ValidationMessage For="@(() => EmailAddress)" />
-                                </td>
-                            </tr>
-                            <tr align="left">
-                                <td align="left" colspan="2">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <h4>&nbsp;&nbsp;Miscellaneous:</h4>
-                                </td>
-                            </tr>
-                            <tr align="left">
-                                <td>
-                                    <p class="label_text">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>How did you hear about us?</b>
-                                    </p>
-                                </td>
-                                <td align="left">
-                                    <select @bind="HearAboutUsId" @bind:event="OnHearAboutUsChanged">
-                                        <option value="0">Select</option>
-                                        @foreach (var hearAboutUs in HearAboutUsList)
+    <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+        <table class="internal-table">
+            <tr>
+                <td colspan="2">
+                    <ValidationSummary CssClass="validationerror" ForeColor=""
+                                       HeaderText="For assistance please contact our toll free call center at 877-261-9782 or email us at <a href=mailto:clwater@usmc.mil>clwater@usmc.mil</a>." Height="177px" />
+                </td>
+            </tr>
+            <tr valign="top">
+                <td>
+                    <table class="no-border" align="left" width="408">
+                        <tr align="left">
+                            <td align="left" colspan="2">
+                                <h4>&nbsp;&nbsp;Personal Info:</h4>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>Last Name:</b></p>
+                            </td>
+                            <td align="left">
+                                <input @bind="model.LastName" maxlength="35" />
+                                <ValidationMessage For="@(() => model.LastName)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>First Name:</b></p>
+                            </td>
+                            <td align="left">
+                                <input @bind="model.FirstName" maxlength="35" />
+                                <ValidationMessage For="@(() => model.FirstName)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Middle Initial:</b></p>
+                            </td>
+                            <td align="left">
+                                <input @bind="model.MiddleInitial" maxlength="1" width="15" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Suffix:</b></p>
+                            </td>
+                            <td align="left">
+                                <select @bind="model.SuffixId">
+                                    <option value="0">Select Suffix</option>
+                                    @if (SuffixList != null)
+                                    {
+                                        @foreach (var suffix in SuffixList)
                                         {
-                                            <option value="@hearAboutUs.Id">@hearAboutUs.Description</option>
+                                            <option value="@suffix.ID">@suffix.DESCRIPTION</option>
                                         }
-                                    </select>
-                                    <ValidationMessage For="@(() => HearAboutUsId)" />
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td align="left" colspan="2">
+                                <br />
+                                <h4>&nbsp;&nbsp;Current Address:</h4>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>Mailing Address 1:</b></p>
+                            </td>
+                            <td align="left">
+                                <input @bind="model.Address1" class="long" maxlength="100" />
+                                <ValidationMessage For="@(() => model.Address1)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td width="150">
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Mailing Address 2:</b></p>
+                            </td>
+                            <td align="left">
+                                <input @bind="model.Address2" class="short" maxlength="100" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span><b> City:</b></p>
+                            </td>
+                            <td align="left">
+                                <input @bind="model.City" maxlength="35" />
+                                <ValidationMessage For="@(() => model.City)" />
+                            </td>
+                        </tr>
+                        <tr align="left" valign="baseline">
+                            <td>
+                                <p class="label_text">
                                     <br />
-                                    <input @bind="HearAboutUsText" maxlength="35" disabled="@(!IsHearAboutUsTextVisible)" />
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </table>
-            </td>
-        </tr>
-        <tr align="center">
-            <td colspan="2">
-                <br />
-                <h3><b>Please review your information prior to clicking submit</b></h3>
-
-                <button type="submit" class="btn btn-primary">Submit</button>           <!--triggers HandleValidSubmit method-->
-                <br />
-                <br />
-                <br />
-            </td>
-        </tr>
-    </table>
+                                    <br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span><b> State:</b>
+                                </p>
+                            </td>
+                            <td align="left">
+                                <a class="help_text" href="javascript:helpopen(1);">Overseas military address?</a><br />
+                                <br />
+                                <select value="@model.StateId" @onchange="OnStateChanged">
+                                    <option value="0">Select State</option>
+                                    @if (StateList != null)
+                                    {
+                                        @foreach (var state in StateList)
+                                        {
+                                            <option value="@state.ID">@state.DESCRIPTION</option>
+                                        }
+                                    }
+                                </select>
+                                <ValidationMessage For="@(() => model.StateId)" />
+                                <br />
+                                <input @bind="model.StateText" maxlength="35" disabled="@(!IsStateTextVisible)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span> <b>Zip Code:</b></p>
+                            </td>
+                            <td align="left">
+                                <input @bind="model.ZipCode" maxlength="10" class="short" />
+                                <ValidationMessage For="@(() => model.ZipCode)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span><b> Country:</b></p>
+                            </td>
+                            <td align="left">
+                                <select @bind="model.CountryId">
+                                    <option value="0">Select Country</option>
+                                    @if (CountryList != null)
+                                    {
+                                        @foreach (var country in CountryList)
+                                        {
+                                            <option value="@country.ID">@country.DESCRIPTION</option>
+                                        }
+                                    }
+                                </select>
+                                <ValidationMessage For="@(() => model.CountryId)" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td valign="top">
+                    <table class="no-border" align="left" width="545">
+                        <td valign="top">
+                            <table class="no-border" align="left" width="545">
+                                <tr align="left" valign="top">
+                                    <td class="text-left vertical-align-top" colspan="2">
+                                        <h4>&nbsp;&nbsp;Contact Information:</h4>
+                                    </td>
+                                </tr>
+                                <tr valign="top" align="left">
+                                    <td>
+                                        <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="required">*</span><b> Primary Phone Number:</b></p>
+                                    </td>
+                                    <td align="left">
+                                        <input @bind="model.PrimaryPhone" maxlength="20" /><br />
+                                        <span class="italic blue bold font-11 ml-20"> No dashes accepted </span>
+                                        <br />
+                                        <br />
+                                        <ValidationMessage For="@(() => model.PrimaryPhone)" />
+                                    </td>
+                                </tr>
+                                <tr valign="top" align="left">
+                                    <td>
+                                        <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Alternate Phone Number:</b></p>
+                                    </td>
+                                    <td align="left">
+                                        <input @bind="model.AlternatePhone" maxlength="20" /><br />
+                                        <span class="italic blue bold font-11 ml-20"> No dashes accepted </span>
+                                        <br />
+                                        <br />
+                                        <ValidationMessage For="@(() => model.AlternatePhone)" />
+                                    </td>
+                                </tr>
+                                <tr valign="top" align="left">
+                                    <td>
+                                        <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Email Address:</b></p>
+                                    </td>
+                                    <td align="left">
+                                        <input @bind="model.EmailAddress" maxlength="128" />
+                                        <ValidationMessage For="@(() => model.EmailAddress)" />
+                                    </td>
+                                </tr>
+                                <tr align="left">
+                                    <td align="left" colspan="2">
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <h4>&nbsp;&nbsp;Miscellaneous:</h4>
+                                    </td>
+                                </tr>
+                                <tr align="left">
+                                    <td colspan="2">
+                                        <table class="no-border" width="100%">
+                                            <tr>
+                                                <td class="label_text" style="vertical-align: middle;">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>How did you hear about us?</b>
+                                                </td>
+                                                <td align="left">
+                                                    <select value="@model.HearAboutUsId" @onchange="OnHearAboutUsChanged" style="vertical-align: middle;">
+                                                        <option value="0">Select</option>
+                                                        @if (HearAboutUsList != null)
+                                                        {
+                                                            @foreach (var hearAboutUs in HearAboutUsList)
+                                                            {
+                                                                <option value="@hearAboutUs.ID">@hearAboutUs.DESCRIPTION</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <ValidationMessage For="@(() => model.HearAboutUsId)" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td align="left">
+                                                    <input @bind="model.HearAboutUsText" maxlength="35" disabled="@(!IsHearAboutUsTextVisible)" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </table>
+                </td>
+            </tr>
+            <tr align="center">
+                <td colspan="2">
+                    <br />
+                    <h3><b>Please review your information prior to clicking submit</b></h3>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <br />
+                    <br />
+                    <br />
+                </td>
+            </tr>
+        </table>
+    </EditForm>
 </div>
