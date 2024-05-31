@@ -1,0 +1,408 @@
+@page "/Internal/ValidateUser"
+@layout InternalLayout
+@inherits AuthorizedComponentBase
+
+<div class="interior-breadcrumb">
+    <a href="/Internal/Selection" class="interior-breadcrumb"><span class="arial-font bold">Back to Index</span></a>
+</div>
+<div class="content-p-crumb">
+    <h3 class="text-center">Possible Matches:</h3>
+    <EditForm Model="@model" OnValidSubmit="@SaveChanges" @key="model">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <table align="center" border="0" class="internal-table">
+            <tr>
+                <td colspan="2">
+                    @if (SearchResults == null)
+                    {
+                        <p>Loading...</p>
+                    }
+                    else
+                    {
+                        <table class="results">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>Middle Initial</th>
+                                    <th>Suffix</th>
+                                    <th>Phone Number</th>
+                                    <th>Address 1</th>
+                                    <th>Address 2</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Zip Code</th>
+                                    <th>Country</th>
+                                    <th>Is Primary</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var result in SearchResults)
+                                {
+                                    <tr>
+                                        <td>@result.PersonId</td>
+                                        <td>@result.LastName</td>
+                                        <td>@result.FirstName</td>
+                                        <td>@result.MiddleInitial</td>
+                                        <td>@result.SuffixDescription</td>
+                                        <td>@result.PrimaryPhone</td>
+                                        <td>@result.Address1</td>
+                                        <td>@result.Address2</td>
+                                        <td>@result.City</td>
+                                        <td>@result.StateDescription</td>
+                                        <td>@result.ZipCode</td>
+                                        <td>@result.CountryDescription</td>
+                                        <td>@(result.IsPrimary.HasValue ? (result.IsPrimary.Value ? "YES" : "NO") : "")</td>
+                                        <td>
+                                            <button class="btn btn-link" @onclick="() => CompareRecord(result)">Compare</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </td>
+            </tr>
+            <tr align="left">
+                <td>
+                    <table class="internal-table">
+                        <tr align="left">
+                            <td colspan="2">
+                                <p align="left" class="headline_text">
+                                    Stage Record (User ID: @PersonId)
+                                </p>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registration Type:</td>
+                            <td align="left">@model.RegistrationType</td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Last Name:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.LastName" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>First Name:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.FirstName" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Middle Initial:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.MiddleInitial" maxlength="1" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Suffix:</p>
+                            </td>
+                            <td align="left">
+                                <InputSelect @bind-Value="model.SuffixId" disabled="@(!CanEditStageRecord)">
+                                    <option value="">Select Suffix</option>
+                                    @if (SuffixList != null)
+                                    {
+                                        @foreach (var suffix in SuffixList)
+                                        {
+                                            <option value="@suffix.ID">@suffix.DESCRIPTION</option>
+                                        }
+                                    }
+                                </InputSelect>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Primary Phone:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.PrimaryPhone" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate Phone:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.AlternatePhone" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email Address:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.EmailAddress" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Address 1:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.Address1" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address 2:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.Address2" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>City:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.City" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>State:</p>
+                            </td>
+                            <td align="left">
+                                <InputSelect @bind-Value="model.StateId" disabled="@(!CanEditStageRecord)">
+                                    <option value="">Select State</option>
+                                    @if (StateList != null)
+                                    {
+                                        @foreach (var state in StateList)
+                                        {
+                                            <option value="@state.ID">@state.DESCRIPTION</option>
+                                        }
+                                    }
+                                </InputSelect>
+                                <br />
+                                <InputText @bind-Value="model.OtherStateText" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Zip Code:</p>
+                            </td>
+                            <td align="left">
+                                <InputText @bind-Value="model.ZipCode" disabled="@(!CanEditStageRecord)" />
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Country:</p>
+                            </td>
+                            <td align="left">
+                                <InputSelect @bind-Value="model.CountryId" disabled="@(!CanEditStageRecord)">
+                                    <option value="">Select Country</option>
+                                    @if (CountryList != null)
+                                    {
+                                        @foreach (var country in CountryList)
+                                        {
+                                            <option value="@country.ID">@country.DESCRIPTION</option>
+                                        }
+                                    }
+                                </InputSelect>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td>
+                                <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Make Primary:</p>
+                            </td>
+                            <td align="left">
+                                <InputCheckbox @bind-Value="model.IsPrimary" @onchange="() => CanSave = model.IsPrimary" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    @if (ShowComparisonPanel)
+                    {
+                        <table>
+                            <tr>
+                                <td align="left" colspan="2">
+                                    <p align="left" class="headline_text">
+                                        Comparison Record (User ID: @model.ComparisonPersonId)
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registration Type:</p>
+                                </td>
+                                <td align="left">@model.ComparisonRegistrationType</td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Last Name:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonLastName" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>First Name:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonFirstName" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Middle Initial:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonMiddleInitial" maxlength="1" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Suffix:</p>
+                                </td>
+                                <td align="left">
+                                    <InputSelect @bind-Value="model.ComparisonSuffixId" disabled="@(!CanEditComparisonRecord)">
+                                        <option value="">Select Suffix</option>
+                                        @if (SuffixList != null)
+                                        {
+                                            @foreach (var suffix in SuffixList)
+                                            {
+                                                <option value="@suffix.ID">@suffix.DESCRIPTION</option>
+                                            }
+                                        }
+                                    </InputSelect>
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Primary Phone:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonPrimaryPhone" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate Phone:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonAlternatePhone" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email Address:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonEmailAddress" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Address 1:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonAddress1" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address 2:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonAddress2" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>City:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonCity" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>State:</p>
+                                </td>
+                                <td align="left">
+                                    <InputSelect @bind-Value="model.ComparisonStateId" disabled="@(!CanEditComparisonRecord)">
+                                        <option value="">Select State</option>
+                                        @if (StateList != null)
+                                        {
+                                            @foreach (var state in StateList)
+                                            {
+                                                <option value="@state.ID">@state.DESCRIPTION</option>
+                                            }
+                                        }
+                                    </InputSelect>
+                                    <br />
+                                    <InputText @bind-Value="model.ComparisonOtherStateText" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Zip Code:</p>
+                                </td>
+                                <td align="left">
+                                    <InputText @bind-Value="model.ComparisonZipCode" disabled="@(!CanEditComparisonRecord)" />
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>Country:</p>
+                                </td>
+                                <td align="left">
+                                    <InputSelect @bind-Value="model.ComparisonCountryId" disabled="@(!CanEditComparisonRecord)">
+                                        <option value="">Select Country</option>
+                                        @if (CountryList != null)
+                                        {
+                                            @foreach (var country in CountryList)
+                                            {
+                                                <option value="@country.ID">@country.DESCRIPTION</option>
+                                            }
+                                        }
+                                    </InputSelect>
+                                </td>
+                            </tr>
+                            <tr align="left">
+                                <td>
+                                    <p class="label_text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Make Primary:</p>
+                                </td>
+                                <td align="left">
+                                    <InputCheckbox @bind-Value="model.ComparisonIsPrimary" @onchange="() => CanSave = model.ComparisonIsPrimary" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br />
+                    <table align="center" class="width-400px">
+                        <tr>
+                            <td>
+                                <button class="btn btn-primary" type="submit" disabled="@(!CanSave)">SAVE</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary" type="button" @onclick="ClearComparisonPanel" disabled="@(!ShowComparisonPanel)">CLEAR</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary" type="button" @onclick="NavigateBack">BACK</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </td>
+            </tr>
+        </table>
+    </EditForm>
+</div>
